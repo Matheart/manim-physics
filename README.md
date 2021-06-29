@@ -1,10 +1,14 @@
 # manim-physics
-A physics simulation plugin based on Pymunk, with this plugin you could generate complicated physics scenes without struggling to use many updaters.
+A 2D physics simulation plugin based on Pymunk, with this plugin you could generate complicated physics scenes without struggling to use many updaters.
 
-Contributed by **pdcxs** and **Matheart**
+Contributed by [**pdcxs**](https://github.com/pdcxs) and [**Matheart**](https://github.com/Matheart)
 
 ## Installation
 Follow this guide: https://docs.manim.community/en/stable/installation/plugins.html?highlight=plugin
+
+## Usage
+In order to use manim-physics to generate physics animations, you should be familar with pymunk.
+You could check [the official documentation](http://www.pymunk.org/en/latest/pymunk.html) of pymunk for reference.
 
 ## A simple Example 
 
