@@ -185,4 +185,7 @@ $RECYCLE.BIN/
 # Python compiled files
 *.pyc
 
+*.tex
+*.dvi
+*.aux
 # End of https://www.gitignore.io/api/c++,linux,macos,windows,visualstudiocode
