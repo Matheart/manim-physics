@@ -91,4 +91,22 @@ class TwoObjectsFalling(Scene):
         # during wait time, the circle and rect would move according to the simulate updater
 ```
 
+
+
+
+https://user-images.githubusercontent.com/47732475/123754164-2e442a00-d8ed-11eb-811d-4c86619e7cca.mp4
+
+
+
 ## Other beautiful animations based on manim-physics
+
+https://user-images.githubusercontent.com/47732475/123754200-38febf00-d8ed-11eb-937a-b93bc490f85a.mp4
+
+
+https://user-images.githubusercontent.com/47732475/123754252-44ea8100-d8ed-11eb-94e9-1f6b01d8c2f8.mp4
+
+
+
+
+
+
