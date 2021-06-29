@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "manim-physics"
+version = "0.1.0"
+description = "Support physics simulation"
+authors = ["Matheart <waautomationwong@gmail.com>"]
+readme="README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+manim = ">=0.6.0"
+pymunk = "^6.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.plugins."manim.plugins"]
+"manim_physics" = "manim_physics"
