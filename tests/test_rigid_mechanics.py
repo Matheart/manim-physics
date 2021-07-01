@@ -1,5 +1,5 @@
 from manim_physics import __version__
-from manim_physics.physics import * 
+from manim_physics.rigid_mechanics import * 
 
 def test_version():
     assert __version__ == '0.1.1'
