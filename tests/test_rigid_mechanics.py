@@ -1,8 +1,4 @@
-from manim_physics import *
 from manim_physics.rigid_mechanics import * 
-
-def test_version():
-    assert __version__ == '0.1.1'
 
 class OneObjectsFalling(Scene):
     def construct(self):
