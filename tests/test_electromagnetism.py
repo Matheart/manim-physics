@@ -2,7 +2,7 @@ from manim import *
 from manim_physics.electromagnetism import *
 
 
-class ElectricityExampleScene(Scene):
+class ElectricFieldExampleScene(Scene):
     def construct(self):
         charge1 = Charge(-1, LEFT * 2 + DOWN)
         charge2 = Charge(2, RIGHT * 2 + DOWN)

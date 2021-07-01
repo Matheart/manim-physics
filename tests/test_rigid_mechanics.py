@@ -2,22 +2,6 @@ from manim_physics import __version__
 from manim_physics.rigid_mechanics import *
 
 
-def test_version():
-    assert __version__ == "0.1.1"
-
-
-class TwoObjectsFalling(Scene):
-    def construct(self):
-        space = Space(dt=1 / self.camera.frame_rate)
-        # space is the basic unit of simulation (just like scene)
-        # you can add rigid bodies, shapes and joints to it
-=======
-from manim_physics import *
-from manim_physics.rigid_mechanics import * 
-
-def test_version():
-    assert __version__ == '0.1.1'
-
 class OneObjectsFalling(Scene):
     def construct(self):
         space = Space(dt = 1 / self.camera.frame_rate) 
