@@ -1,6 +1,7 @@
 from manim import *
 import pymunk
 
+
 class Space(Mobject):
     def __init__(self, dt, **kargs):
         Mobject.__init__(self, **kargs)
@@ -13,8 +14,10 @@ class Space(Mobject):
             self.space.add(body.body)
         self.space.add(body.shape)
 
+
 def step(space, dt):
     space.space.step(dt)
+
 
 def simulate(b):
     x, y = b.body.position

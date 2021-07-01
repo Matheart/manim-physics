@@ -12,7 +12,7 @@ class LinearWave(ParametricSurface):
         self,
         wavelength=1,
         period=1,
-        amplitude=0.3,
+        amplitude=0.1,
         x_range=[-5, 5],
         y_range=[-5, 5],
         **kwargs
@@ -79,7 +79,7 @@ class RadialWave(ParametricSurface):
         *sources,
         wavelength=1,
         period=1,
-        amplitude=0.3,
+        amplitude=0.1,
         x_range=[-5, 5],
         y_range=[-5, 5],
         **kwargs
@@ -144,9 +144,10 @@ class StandingWave(ParametricFunction):
 
         super().__init__(
             lambda t: np.array([t, amplitude * np.sin(n * PI * t / length), 0]),
-            t_range=[-length / 2, length / 2],
+            t_range=[0, length],
             **kwargs
         )
+        self.shift([-self.length / 2, 0, 0])
 
     def update_wave(self, mob, dt):
         self.time += dt
@@ -161,12 +162,13 @@ class StandingWave(ParametricFunction):
                         0,
                     ]
                 ),
-                t_range=[-self.length / 2, self.length / 2],
+                t_range=[0, self.length],
                 **self.extra
-            )
+            ).shift(self.wave_center + [-self.length / 2, 0, 0])
         )
 
     def start_wave(self):
+        self.wave_center = self.get_center()
         self.add_updater(self.update_wave)
 
     def stop_wave(self):

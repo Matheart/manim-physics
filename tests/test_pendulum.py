@@ -1,6 +1,7 @@
 from manim import *
 from manim_physics.pendulum import *
 
+
 class PendulumExampleScene(Scene):
     def construct(self):
         pendulum = Pendulum()
