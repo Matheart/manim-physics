@@ -2,7 +2,7 @@
 ## Introduction
 This is a 2D physics simulation plugin that allows you to generate complicated scenes in various branches of Physics such as rigid mechanics, electromagnetism, wave etc.
 
-Contributors: [**pdcxs**](https://github.com/pdcxs), [**Matheart**](https://github.com/Matheart)
+Contributors: [**pdcxs**](https://github.com/pdcxs), [**Matheart**](https://github.com/Matheart), [**Iced-Tea3**](https://github.com/Iced-Tea3)
 
 ## Installation
 Follow this guide: https://docs.manim.community/en/stable/installation/plugins.html?highlight=plugin. 

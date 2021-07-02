@@ -28,7 +28,7 @@ class RadialWaveExampleScene(ThreeDScene):
         wave.stop_wave()
 
 
-class StandingWaveExample(Scene):
+class StandingWaveExampleScene(Scene):
     def construct(self):
         wave1 = StandingWave(1)
         wave2 = StandingWave(2)
