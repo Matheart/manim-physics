@@ -1,4 +1,5 @@
 from manim import *
+
 from manim_physics.wave import *
 
 
