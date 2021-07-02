@@ -1,14 +1,21 @@
-# manim-physics
-A 2D physics simulation plugin based on Pymunk, with this plugin you could generate complicated physics scenes without struggling to use many updaters.
+# manim-physics (Under Active Development)
+## Introduction
+This is a 2D physics simulation plugin that allows you to generate complicated scenes in various branches of Physics such as rigid mechanics, electromagnetism, wave etc.
 
-Contributed by [**pdcxs**](https://github.com/pdcxs) and [**Matheart**](https://github.com/Matheart)
+Contributors: [**pdcxs**](https://github.com/pdcxs), [**Matheart**](https://github.com/Matheart)
 
 ## Installation
-Follow this guide: https://docs.manim.community/en/stable/installation/plugins.html?highlight=plugin
+Follow this guide: https://docs.manim.community/en/stable/installation/plugins.html?highlight=plugin. 
+
+**Warnings: Please do not directly clone the github repo! The repo is still under development and it is not a stable version, download manim-physics through pypi.**
 
 ## Usage
-In order to use manim-physics to generate physics animations, you should be familiar with pymunk.
-You could check [the official documentation](http://www.pymunk.org/en/latest/pymunk.html) of pymunk for reference.
+In order to use `rigid_mechanics.py`, you should be familiar with pymunk. You could check [the official documentation](http://www.pymunk.org/en/latest/pymunk.html) of pymunk for reference. There is also a good [Youtube tutorial](https://youtu.be/pRk---rdrbo ) to let you better understand pymunk.
+
+## Contribution Guidelines
+The manim-physics plugin contains objects that are classified into **several main branches**, now including rigid mechanics simulation, electromagnetism and wave. 
+
+If you want to add more objects to the plugin, The classes of the objects should be placed in the python file of corresponding branch, for example, `wave.py`, and place it under the folder src\manim_physics. The tests of objects should be named as `test_thefilename.py` such as `test_wave.py`, with some documentation, so the maintainer of this repo could ensure that it runs as expected.
 
 ## A simple Example 
 
@@ -26,11 +33,7 @@ class TestScene(SpaceScene):
         # during wait time, the circle would move according to the simulate updater
 ```
 
-
-
-
-https://user-images.githubusercontent.com/47732475/123754164-2e442a00-d8ed-11eb-811d-4c86619e7cca.mp4
-
+https://user-images.githubusercontent.com/47732475/124072981-1519b580-da74-11eb-8f36-12652bfc80e0.mp4
 
 
 ## Other beautiful animations based on manim-physics
