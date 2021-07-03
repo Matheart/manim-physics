@@ -45,16 +45,32 @@ This feature utilizes the pymunk package. Although unnecessary, it might make it
 **Example**
 ```py
 # use a SpaceScene to utilize all specific rigid-mechanics methods
-class TestScene(SpaceScene):
+class TwoObjectsFalling(SpaceScene):
     def construct(self):
-        circle = Circle().set_fill(RED, 1).shift(RIGHT)
-        ground = Line(LEFT*4,RIGHT*4,color=GREEN).shift(DOWN*3.5)
-        self.add(circle,ground)
+        circle = Circle().shift(UP)
+        circle.set_fill(RED, 1)
+        circle.shift(DOWN + RIGHT)
 
-        self.make_rigid_body(circle) # Mobjects will move with gravity
-        self.make_static_body(ground) # Mobjects will stay in place
-        self.wait(10)
-        # during wait time, the circle would move according to the simulate updater
+        rect = Square().shift(UP)
+        rect.rotate(PI / 4)
+        rect.set_fill(YELLOW_A, 1)
+        rect.shift(UP * 2)
+        rect.scale(0.5)
+
+        ground = Line([-4, -3.5, 0], [4, -3.5, 0])
+        wall1 = Line([-4, -3.5, 0], [-4, 3.5, 0])
+        wall2 = Line([4, -3.5, 0], [4, 3.5, 0])
+        walls = VGroup(ground, wall1, wall2)
+        self.add(walls)
+
+        self.play(
+            DrawBorderThenFill(circle),
+            DrawBorderThenFill(rect),
+        )
+        self.make_rigid_body(rect, circle)  # Mobjects will move with gravity
+        self.make_static_body(walls)  # Mobjects will stay in place
+        self.wait(5)
+        # during wait time, the circle and rect would move according to the simulate updater
 ```
 ![TwoObjectsFalling](/media/TwoObjectsFalling_ManimCE_v0.8.0.gif)
 ## Electromagnetism
@@ -147,32 +163,10 @@ The manim-physics plugin contains objects that are classified into **several mai
 
 If you want to add more objects to the plugin, The classes of the objects should be placed in the python file of corresponding branch, for example, `wave.py`, and place it under the folder src\manim_physics. The tests of objects should be named as `test_thefilename.py` such as `test_wave.py`, with some documentation, so the maintainer of this repo could ensure that it runs as expected.
 
-## A simple Example 
-
-```py
-# use a SpaceScene to utilize all specific rigid-mechanics methods
-class TestScene(SpaceScene):
-    def construct(self):
-        circle = Circle().set_fill(RED, 1).shift(RIGHT)
-        ground = Line(LEFT*4,RIGHT*4,color=GREEN).shift(DOWN*3.5)
-        self.add(circle,ground)
-
-        self.make_rigid_body(circle) # Mobjects will move with gravity
-        self.make_static_body(ground) # Mobjects will stay in place
-        self.wait(10)
-        # during wait time, the circle would move according to the simulate updater
-```
 
 ## Other beautiful animations based on manim-physics
 
-
-https://user-images.githubusercontent.com/47732475/124342625-baa96200-dbf7-11eb-996a-1f27b3625602.mp4
-
-https://user-images.githubusercontent.com/47732475/124344045-c0587500-dc02-11eb-8fd6-afc1e5c658bb.mp4
-
-
-
-https://user-images.githubusercontent.com/47732475/123754252-44ea8100-d8ed-11eb-94e9-1f6b01d8c2f8.mp4
+![Falling formulas](/media/TexFalling_ManimCE_v0.7.0.gif)
 
 ## Changelog
 ### **v0.2.1 2021.07.03**
