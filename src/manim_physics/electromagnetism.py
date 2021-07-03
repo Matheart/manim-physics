@@ -198,19 +198,3 @@ class BarMagneticField(CurrentMagneticField):
             currents += currents_
 
         super().__init__(*currents, **kwargs)
-=======
-        p = charge.get_center()
-        direction = np.zeros(3)
-        for other_charge in self.charges:
-            if other_charge == charge:
-                continue
-            p0, mag = other_charge.get_center(), other_charge.magnitude
-            x, y, z = p - p0
-            dist = (x ** 2 + y ** 2) ** 1.5
-            if (x ** 2) > 0.05 or (y ** 2) > 0.05:
-                direction += (mag * np.array([x / dist, y / dist, 0]))
-            else:
-                direction += np.zeros(3)
-        length = (direction[0] ** 2 + direction[1] ** 2) ** 0.5
-        vec_start = Vector(direction / length * charge.radius).shift(charge.point).get_end()
-        return Vector(direction).shift(vec_start)
