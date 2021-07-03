@@ -2,44 +2,17 @@ from manim import *
 from manim_physics import __version__
 from manim_physics.rigid_mechanics import *
 
-class OneObjectFalling(Scene):
+
+class OneObjectFalling(SpaceScene):
     def construct(self):
-        space = Space(dt = 1 / self.camera.frame_rate) 
-        # space is the basic unit of simulation (just like scene)
-        # you can add rigid bodies, shapes and joints to it 
-        # and then step them all forward together through time
-        self.add(space)
-
-        circle = Circle().shift(UP).set_fill(RED, 1).shift(DOWN + RIGHT)
-        circle.body = pymunk.Body() # add a rigid body to the circle
-        circle.body.position = \
-            circle.get_center()[0], \
-            circle.get_center()[1]
-        circle.shape = pymunk.Circle(
-            body = circle.body,
-            radius = circle.width / 2
-        ) # set the shape of the circle in pymunk
-        circle.shape.elasticity = 0.8
-        circle.shape.density = 1
-        circle.angle = 0
-
-        ground = Rectangle(width = 8, height = 0.1, color = GREEN).set_fill(GREEN, 1)
-        ground.shift(3.5*DOWN)
-        ground.body = space.space.static_body 
-        # static body means the object keeps stationary even after collision
-        ground.shape = pymunk.Segment(ground.body, (-4, -3.5), (4, -3.5), 0.1)
-        ground.shape.elasticity = 0.99
-        ground.shape.friction = 0.8
-        self.add(ground)
-
-        self.add(circle)
-        space.add_body(circle)
-        space.add_body(ground)
-
-        space.add_updater(step)
-        circle.add_updater(simulate)
+        circle = Circle().set_fill(RED, 1).shift(RIGHT)
+        ground = Line(LEFT * 4, RIGHT * 4, color=GREEN)
+        ground.shift(3.5 * DOWN)
+        self.add(circle, ground)
+        self.make_rigid_body(circle)
+        self.make_static_body(ground)
         self.wait(10)
-        # during wait time, the circle would move according to the simulate updater
+
 
 # use a SpaceScene to utilize all specific rigid-mechanics methods
 class TwoObjectsFalling(SpaceScene):
@@ -55,14 +28,21 @@ class TwoObjectsFalling(SpaceScene):
         rect.shift(UP * 2)
         rect.scale(0.5)
 
+        tri = Triangle(fill_opacity=1).shift(DL)
+        tri.rotate(6 * PI / 5)
+
         ground = Line([-4, -3.5, 0], [4, -3.5, 0])
         wall1 = Line([-4, -3.5, 0], [-4, 3.5, 0])
         wall2 = Line([4, -3.5, 0], [4, 3.5, 0])
         walls = VGroup(ground, wall1, wall2)
         self.add(walls)
 
-        self.play(DrawBorderThenFill(circle), DrawBorderThenFill(rect))
-        self.make_rigid_body(rect, circle)  # Mobjects will move with gravity
+        self.play(
+            DrawBorderThenFill(circle),
+            DrawBorderThenFill(rect),
+            DrawBorderThenFill(tri),
+        )
+        self.make_rigid_body(rect, circle, tri)  # Mobjects will move with gravity
         self.make_static_body(walls)  # Mobjects will stay in place
         self.wait(10)
         # during wait time, the circle and rect would move according to the simulate updater

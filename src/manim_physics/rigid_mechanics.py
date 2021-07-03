@@ -32,12 +32,24 @@ def get_shape(mob):
             (mob.get_end()[0], mob.get_end()[1]),
             mob.stroke_width - 3.95,
         )
-    elif issubclass(type(mob), Polygon):
+    elif issubclass(type(mob), Rectangle):
         width = np.linalg.norm(mob.get_vertices()[1] - mob.get_vertices()[0])
         height = np.linalg.norm(mob.get_vertices()[2] - mob.get_vertices()[1])
         mob.shape = pymunk.Poly.create_box(mob.body, (width, height))
+    elif issubclass(type(mob), Polygram):
+        vertices = [(a, b) for a, b, c in mob.get_vertices() - mob.get_center()]
+        mob.shape = pymunk.Poly(mob.body, vertices)
     else:
         mob.shape = pymunk.Poly.create_box(mob.body, (mob.width, mob.height))
+
+
+def get_angle(mob):
+    if issubclass(type(mob), Polygon):
+        vec1 = mob.get_vertices()[0] - mob.get_vertices()[1]
+        vec2 = type(mob)().get_vertices()[0] - type(mob)().get_vertices()[1]
+        mob.angle = angle_between_vectors(vec1, vec2)
+    elif isinstance(mob, Line):
+        mob.angle = mob.get_angle()
 
 
 class SpaceScene(Scene):
@@ -59,21 +71,14 @@ class SpaceScene(Scene):
         friction=0.8,
     ):
         for mob in mobs:
-
             if isinstance(mob, VGroup):
                 return self.make_rigid_body(*mob)
-            elif issubclass(type(mob), Polygon):
-                vec1 = mob.get_vertices()[0] - mob.get_vertices()[1]
-                vec2 = type(mob)().get_vertices()[0] - type(mob)().get_vertices()[1]
-                mob.angle = angle_between_vectors(vec1, vec2)
-            elif isinstance(mob, Line):
-                mob.angle = mob.get_angle()
             parts = mob.family_members_with_points()
-
             for p in parts:
                 self.add(p)
                 p.body = pymunk.Body()
                 p.body.position = p.get_x(), p.get_y()
+                get_angle(p)
                 if not hasattr(p, "angle"):
                     p.angle = 0
                 p.body.angle = p.angle
