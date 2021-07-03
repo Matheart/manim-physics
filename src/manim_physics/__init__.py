@@ -1,7 +1,7 @@
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __all__ = [
-    "Space", "step", "simulate", # rigid_mechanics
-    "Charge", "ElectricField",   # electromagnetism
+    "Space", "step", "simulate", "get_shape", "get_angle", "SpaceScene", # rigid_mechanics
+    "Charge", "ElectricField", "Current", "CurrentMagneticField", "BarMagnet", "BarMagneticField",  # electromagnetism
     "LinearWave", "RadialWave", "StandingWave" # Wave
 ]
 
