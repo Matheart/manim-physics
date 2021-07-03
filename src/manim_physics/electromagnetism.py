@@ -126,15 +126,19 @@ class CurrentMagneticField(ArrowVectorField):
 
     def field_func(self, p, *currents):
         direction = np.zeros(3)
+        pos = []
         for current in currents:
             x, y, z = p
             x0, y0, z0 = point = current.get_center()
             mag = current.magnitude
+            pos.append(point)
             if (x - x0) ** 2 > 0.05 or (y - y0) ** 2 > 0.05:
                 dist = np.linalg.norm(p - point)
                 direction += mag * np.array([-(y - y0), (x - x0), 0]) / dist ** 3
             else:
                 direction += np.zeros(3)
+        for p0 in pos:
+            if all(p==p0): direction = np.zeros(3)
         return direction
 
 
@@ -144,7 +148,7 @@ class BarMagnet(VGroup):
         north: Sequence[float] = UP,
         south: Sequence[float] = DOWN,
         height: float = 2,
-        width: float = 0.5,
+        width: float = 1,
         **kwargs
     ):
         self.length = np.linalg.norm(north - south)
@@ -175,12 +179,18 @@ class BarMagneticField(CurrentMagneticField):
     def __init__(self, *bars: BarMagnet, **kwargs):
         currents = []
         for bar in bars:
+            width = np.linalg.norm(
+                bar.bar[0].get_vertices()[1]-bar.bar[0].get_vertices()[0]
+            )
+            length = np.linalg.norm(
+                bar.bar[0].get_vertices()[2]-bar.bar[0].get_vertices()[1]
+            )*2
             currents_ = []
             currents_ += [
                 Current(magnitude=-1).move_to(i)
                 for i in np.linspace(
-                    [bar.width / 2, bar.length / 2, 0],
-                    [bar.width / 2, -bar.length / 2, 0],
+                    [width / 2, length / 2, 0],
+                    [width / 2, -length / 2, 0],
                     10,
                 )
             ]
