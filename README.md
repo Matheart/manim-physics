@@ -168,8 +168,24 @@ class TestScene(SpaceScene):
 
 https://user-images.githubusercontent.com/47732475/124342625-baa96200-dbf7-11eb-996a-1f27b3625602.mp4
 
-https://user-images.githubusercontent.com/47732475/123754200-38febf00-d8ed-11eb-937a-b93bc490f85a.mp4
+https://user-images.githubusercontent.com/47732475/124344045-c0587500-dc02-11eb-8fd6-afc1e5c658bb.mp4
 
 
 
 https://user-images.githubusercontent.com/47732475/123754252-44ea8100-d8ed-11eb-94e9-1f6b01d8c2f8.mp4
+
+## Changelog
+### **v0.2.1 2021.07.03**
+#### New objects
+- **Electromagnetism**: Charge, ElectricField, Current, CurrentMagneticField, BarMagnet, and BarMagnetField
+- **Wave**: LinearWave, RadialWave, StandingWave
+
+#### Bugfixes
+- Fix typo
+
+#### Improvements
+- Simplify rigid-mechanics
+
+### **v0.2.0 2021.07.01**
+#### Breaking Changes
+Objects in the manim-physics plugin are classified into several **main branches** including rigid mechanics simulation, electromagnetism and wave.
