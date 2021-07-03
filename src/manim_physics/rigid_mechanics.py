@@ -1,4 +1,4 @@
-__all__ = ["Space", "step", "simulate", "get_shape", "SpaceScene"]
+__all__ = ["Space", "step", "simulate", "get_shape", "get_angle", "SpaceScene"]
 
 import pymunk
 from manim import *
