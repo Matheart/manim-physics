@@ -12,7 +12,7 @@ from manim import *
 
 
 class Charge(VGroup):
-    def __init__(self, magnitude=1, point=ORIGIN, add_light = True, **kwargs):
+    def __init__(self, magnitude=1, point=ORIGIN, add_glow = True, **kwargs):
         VGroup.__init__(self, **kwargs)
         self.magnitude = magnitude
         self.point = point
@@ -32,7 +32,7 @@ class Charge(VGroup):
             layer_colors = ["#3399FF", "#66B2FF"]
             layer_radius = 2
 
-        if add_light: # use many arcs to simulate lighting 
+        if add_glow: # use many arcs to simulate glowing
             layer_num = 80
             color_list = color_gradient(layer_colors, layer_num)
             opacity_func = lambda t: 1500 * (1 - abs(t - 0.009) ** 0.0001)
