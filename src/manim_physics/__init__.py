@@ -5,6 +5,6 @@ __all__ = [
     "LinearWave", "RadialWave", "StandingWave" # Wave
 ]
 
-from .rigid_mechanics import *
 from .electromagnetism import *
+from .rigid_mechanics import *
 from .wave import *

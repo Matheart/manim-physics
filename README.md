@@ -10,7 +10,7 @@ Follow this guide: https://docs.manim.community/en/stable/installation/plugins.h
 **Warnings: Please do not directly clone the github repo! The repo is still under development and it is not a stable version, download manim-physics through pypi.**
 
 ## Usage
-In order to use `rigid_mechanics.py`, you should be familar with pymunk. You could check [the official documentation](http://www.pymunk.org/en/latest/pymunk.html) of pymunk for reference. There is also a good [Youtube tutorial](https://youtu.be/pRk---rdrbo ) to let you better understand pymunk.
+In order to use `rigid_mechanics.py`, you should be familiar with pymunk. You could check [the official documentation](http://www.pymunk.org/en/latest/pymunk.html) of pymunk for reference. There is also a good [Youtube tutorial](https://youtu.be/pRk---rdrbo ) to let you better understand pymunk.
 
 ## Contribution Guidelines
 The manim-physics plugin contains objects that are classified into **several main branches**, now including rigid mechanics simulation, electromagnetism and wave. 
@@ -20,42 +20,15 @@ If you want to add more objects to the plugin, The classes of the objects should
 ## A simple Example 
 
 ```py
-class OneObjectFalling(Scene):
+# use a SpaceScene to utilize all specific rigid-mechanics methods
+class TestScene(SpaceScene):
     def construct(self):
-        space = Space(dt = 1 / self.camera.frame_rate) 
-        # space is the basic unit of simulation (just like scene)
-        # you can add rigid bodies, shapes and joints to it 
-        # and then step them all forward together through time
-        self.add(space)
+        circle = Circle().set_fill(RED, 1).shift(RIGHT)
+        ground = Line(LEFT*4,RIGHT*4,color=GREEN).shift(DOWN*3.5)
+        self.add(circle,ground)
 
-        circle = Circle().shift(UP).set_fill(RED, 1).shift(DOWN + RIGHT)
-        circle.body = pymunk.Body() # add a rigid body to the circle
-        circle.body.position = \
-            circle.get_center()[0], \
-            circle.get_center()[1]
-        circle.shape = pymunk.Circle(
-            body = circle.body,
-            radius = circle.width / 2
-        ) # set the shape of the circle in pymunk
-        circle.shape.elasticity = 0.8
-        circle.shape.density = 1
-        circle.angle = 0
-
-        ground = Rectangle(width = 8, height = 0.1, color = GREEN).set_fill(GREEN, 1)
-        ground.shift(3.5*DOWN)
-        ground.body = space.space.static_body 
-        # static body means the object keeps stationary even after collision
-        ground.shape = pymunk.Segment(ground.body, (-4, -3.5), (4, -3.5), 0.1)
-        ground.shape.elasticity = 0.99
-        ground.shape.friction = 0.8
-        self.add(ground)
-
-        self.add(circle)
-        space.add_body(circle)
-        space.add_body(ground)
-
-        space.add_updater(step)
-        circle.add_updater(simulate)
+        self.make_rigid_body(circle) # Mobjects will move with gravity
+        self.make_static_body(ground) # Mobjects will stay in place
         self.wait(10)
         # during wait time, the circle would move according to the simulate updater
 ```
