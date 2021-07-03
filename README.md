@@ -20,7 +20,7 @@ If you want to add more objects to the plugin, The classes of the objects should
 ## A simple Example 
 
 ```py
-class OneObjectsFalling(Scene):
+class OneObjectFalling(Scene):
     def construct(self):
         space = Space(dt = 1 / self.camera.frame_rate) 
         # space is the basic unit of simulation (just like scene)
