@@ -5,9 +5,9 @@ import pymunk
 class Space(Mobject):
     def __init__(self, dt, **kargs):
         Mobject.__init__(self, **kargs)
-        self.space = pymunk.Space()
-        self.space.gravity = 0, -9.8
-        self.dt = dt
+        self.space = pymunk.Space() # intialise space
+        self.space.gravity = 0, -9.8 # intialise gravity
+        self.dt = dt 
 
     def add_body(self, body):
         if body.body != self.space.static_body:
