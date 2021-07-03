@@ -2,10 +2,44 @@ from manim import *
 from manim_physics import __version__
 from manim_physics.rigid_mechanics import *
 
+class OneObjectFalling(Scene):
+    def construct(self):
+        space = Space(dt = 1 / self.camera.frame_rate) 
+        # space is the basic unit of simulation (just like scene)
+        # you can add rigid bodies, shapes and joints to it 
+        # and then step them all forward together through time
+        self.add(space)
 
-def test_version():
-    assert __version__ == "0.1.1"
+        circle = Circle().shift(UP).set_fill(RED, 1).shift(DOWN + RIGHT)
+        circle.body = pymunk.Body() # add a rigid body to the circle
+        circle.body.position = \
+            circle.get_center()[0], \
+            circle.get_center()[1]
+        circle.shape = pymunk.Circle(
+            body = circle.body,
+            radius = circle.width / 2
+        ) # set the shape of the circle in pymunk
+        circle.shape.elasticity = 0.8
+        circle.shape.density = 1
+        circle.angle = 0
 
+        ground = Rectangle(width = 8, height = 0.1, color = GREEN).set_fill(GREEN, 1)
+        ground.shift(3.5*DOWN)
+        ground.body = space.space.static_body 
+        # static body means the object keeps stationary even after collision
+        ground.shape = pymunk.Segment(ground.body, (-4, -3.5), (4, -3.5), 0.1)
+        ground.shape.elasticity = 0.99
+        ground.shape.friction = 0.8
+        self.add(ground)
+
+        self.add(circle)
+        space.add_body(circle)
+        space.add_body(ground)
+
+        space.add_updater(step)
+        circle.add_updater(simulate)
+        self.wait(10)
+        # during wait time, the circle would move according to the simulate updater
 
 # use a SpaceScene to utilize all specific rigid-mechanics methods
 class TwoObjectsFalling(SpaceScene):
