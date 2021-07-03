@@ -28,9 +28,6 @@ class TwoObjectsFalling(SpaceScene):
         rect.shift(UP * 2)
         rect.scale(0.5)
 
-        tri = Triangle(fill_opacity=1).shift(DL)
-        tri.rotate(6 * PI / 5)
-
         ground = Line([-4, -3.5, 0], [4, -3.5, 0])
         wall1 = Line([-4, -3.5, 0], [-4, 3.5, 0])
         wall2 = Line([4, -3.5, 0], [4, 3.5, 0])
@@ -40,11 +37,10 @@ class TwoObjectsFalling(SpaceScene):
         self.play(
             DrawBorderThenFill(circle),
             DrawBorderThenFill(rect),
-            DrawBorderThenFill(tri),
         )
-        self.make_rigid_body(rect, circle, tri)  # Mobjects will move with gravity
+        self.make_rigid_body(rect, circle)  # Mobjects will move with gravity
         self.make_static_body(walls)  # Mobjects will stay in place
-        self.wait(10)
+        self.wait(5)
         # during wait time, the circle and rect would move according to the simulate updater
 
 
