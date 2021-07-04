@@ -12,7 +12,9 @@ Contributors:
     - [Rigid Mechanics](#rigid-mechanics)
     - [Electromagnetism](#electromagnetism)
     - [Waves](#waves)
+    - [Pendulum]()
 - [Contribution Guidelines](#contribution-guidelines)
+- [Changelog](#changelog)
 # Installation
 `manim-physics` is a package on pypi, and can be directly installed using pip:
 ```
@@ -158,6 +160,35 @@ class StandingWaveExample(Scene):
         self.wait()
 ```
 ![StandingWaveExample](/media/StandingWaveExample_ManimCE_v0.7.0.gif)
+## Pendulums
+`MultiPendulum` and `Pendulum` both stem from the [Rigid Mechanics](#rigid-mechanics) feature.
+> **Note**:
+>
+> Sometimes the updaters lag behind the intended target. This may be solved by increasing config frame rate.
+```py
+class PendulumExample(SpaceScene):
+    def construct(self):
+        pends = VGroup(*[Pendulum(i) for i in np.linspace(1,5,7)])
+        self.add(pends)
+        for p in pends:
+            self.make_rigid_body(p.bobs)
+            p.start_swinging()
+        self.wait(10)
+```
+![MultiPendulumExample](./media/PendulumExample_ManimCE_v0.8.0.gif)
+```py
+class MultiPendulumExample(SpaceScene):
+    def construct(self):
+        p = MultiPendulum(
+            RIGHT, LEFT # positions of the bobs.
+        )
+        self.add(p)
+        self.make_rigid_body(p.bobs) # make the bobs fall free.
+        p.start_swinging() # attach them to their pivots.
+        self.add(TracedPath(p.bobs[-1].get_center, stroke_color=BLUE))
+        self.wait(10)
+```
+![MultiPendulumExample](./media/MultiPendulumExample_ManimCE_v0.8.0.gif)
 # Contribution Guidelines
 The manim-physics plugin contains objects that are classified into **several main branches**, now including rigid mechanics simulation, electromagnetism and wave. 
 
