@@ -32,16 +32,16 @@ Most objects can be made into a rigid body (moves according to gravity and colli
 
 To use this feature, the `SpaceScene` must be used, to access the specific functions of the space.
 
----
-**NOTE**
 
-This feature utilizes the pymunk package. Although unnecessary, it might make it easier if you knew a few things on how to use it.
+>**NOTE**
+>- This feature utilizes the pymunk package. Although unnecessary, it might make it easier if you knew a few things on how to use it.
+>
+>    [Official Documentation](http://www.pymunk.org/en/latest/pymunk.html)
+>
+>    [Youtube Tutorial](https://youtu.be/pRk---rdrbo)
+>
+>- A low frame rate might cause some objects to pass static objects as they don't register collisions finely enough. Trying to increase the config frame rate might solve the problem.
 
-[Official Documentation](http://www.pymunk.org/en/latest/pymunk.html)
-
-[Youtube Tutorial](https://youtu.be/pRk---rdrbo)
-
----
 **Example**
 ```py
 # use a SpaceScene to utilize all specific rigid-mechanics methods
