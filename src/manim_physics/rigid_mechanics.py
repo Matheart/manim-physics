@@ -1,14 +1,81 @@
 __all__ = ["Space", "step", "simulate", "get_shape", "get_angle", "SpaceScene"]
 
+from manim.mobject.opengl_compatibility import ConvertToOpenGL
 import pymunk
 from manim import *
 
 
-class Space(Mobject):
+class Space(Mobject, metaclass=ConvertToOpenGL):
     def __init__(self, **kwargs):
-        Mobject.__init__(self, **kwargs)
+        super().__init__(**kwargs)
         self.space = pymunk.Space()
         self.space.gravity = 0, -9.8
+        self.space.sleep_time_threshold = 5
+
+
+class SpaceScene(Scene):
+    def __init__(self, renderer=None, **kwargs):
+        self.space = Space()
+        super().__init__(renderer=renderer, **kwargs)
+
+    def setup(self):
+        self.add(self.space)
+        self.space.add_updater(step)
+
+    def add_body(self, body):
+        if body.body != self.space.space.static_body:
+            self.space.space.add(body.body)
+        self.space.space.add(body.shape)
+
+    def make_rigid_body(
+        self,
+        *mobs,
+        elasticity=0.8,
+        density=1,
+        friction=0.8,
+    ):
+        for mob in mobs:
+            if isinstance(mob, VGroup):
+                return self.make_rigid_body(*mob)
+            if not hasattr(mob, "body"):
+                parts = mob.family_members_with_points()
+                for p in parts:
+                    self.add(p)
+                    p.body = pymunk.Body()
+                    p.body.position = p.get_x(), p.get_y()
+                    get_angle(p)
+                    if not hasattr(p, "angle"):
+                        p.angle = 0
+                    p.body.angle = p.angle
+                    get_shape(p)
+                    p.shape.density = density
+                    p.shape.elasticity = elasticity
+                    p.shape.friction = friction
+                    p.spacescene = self
+
+                self.add_body(p)
+                p.add_updater(simulate)
+
+            else:
+                if mob.body.is_sleeping:
+                    mob.body.activate()
+
+    def make_static_body(self, *mobs, elasticity=1, friction=0.8):
+        for mob in mobs:
+            if isinstance(mob, VGroup or Group):
+                return self.make_static_body(*mob)
+            mob.body = self.space.space.static_body
+            get_shape(mob)
+            mob.shape.elasticity = elasticity
+            mob.shape.friction = friction
+            self.add_body(mob)
+
+    def stop_rigidity(self, *mobs):
+        for mob in mobs:
+            if isinstance(mob, VGroup or Group):
+                self.stop_rigidity(*mob)
+            if hasattr(mob, "body"):
+                mob.body.sleep()
 
 
 def step(space, dt):
@@ -50,54 +117,3 @@ def get_angle(mob):
         mob.angle = angle_between_vectors(vec1, vec2)
     elif isinstance(mob, Line):
         mob.angle = mob.get_angle()
-
-
-class SpaceScene(Scene):
-    def setup(self):
-        self.space = Space()
-        self.add(self.space)
-        self.space.add_updater(step)
-
-    def add_body(self, body):
-        if body.body != self.space.space.static_body:
-            self.space.space.add(body.body)
-        self.space.space.add(body.shape)
-
-    def make_rigid_body(
-        self,
-        *mobs,
-        elasticity=0.8,
-        density=1,
-        friction=0.8,
-    ):
-        for mob in mobs:
-            if isinstance(mob, VGroup):
-                return self.make_rigid_body(*mob)
-            parts = mob.family_members_with_points()
-            for p in parts:
-                self.add(p)
-                p.body = pymunk.Body()
-                p.body.position = p.get_x(), p.get_y()
-                get_angle(p)
-                if not hasattr(p, "angle"):
-                    p.angle = 0
-                p.body.angle = p.angle
-                get_shape(p)
-                p.shape.elasticity = elasticity
-                p.shape.density = density
-                p.shape.friction = friction
-
-                self.add_body(p)
-                p.add_updater(simulate)
-
-    def make_static_body(self, *mobs, elasticity=1, friction=0.8):
-        for mob in mobs:
-            if isinstance(mob, VGroup or Group):
-                return self.make_static_body(*mob)
-            mob.body = self.space.space.static_body
-            # mob.body.position = mob.get_center()[0],mob.get_center()[1]
-            # static body means the object keeps stationary even after collision
-            get_shape(mob)
-            mob.shape.elasticity = elasticity
-            mob.shape.friction = friction
-            self.add_body(mob)

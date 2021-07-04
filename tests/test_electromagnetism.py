@@ -11,10 +11,6 @@ class ElectricFieldExampleScene(Scene):
         field = ElectricField(charge1, charge2, charge3)
         self.add(charge1, charge2, charge3)
         self.add(field)
-        self.wait(2)
-
-        #vec = field.get_force_on_charge(charge2) 
-        #self.play(Create(vec))
 
 
 class MagnetismExampleScene(Scene):
