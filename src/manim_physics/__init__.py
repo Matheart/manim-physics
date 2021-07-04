@@ -4,4 +4,3 @@ from .electromagnetism import *
 from .pendulum import *
 from .rigid_mechanics import *
 from .wave import *
-from .spring import *
