@@ -13,8 +13,8 @@ class ElectricFieldExampleScene(Scene):
         self.add(field)
         self.wait(2)
 
-        #vec = field.get_force_on_charge(charge2) 
-        #self.play(Create(vec))
+        # vec = field.get_force_on_charge(charge2)
+        # self.play(Create(vec))
 
 
 class MagnetismExampleScene(Scene):

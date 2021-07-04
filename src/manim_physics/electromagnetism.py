@@ -12,12 +12,12 @@ from manim import *
 
 
 class Charge(VGroup):
-    def __init__(self, magnitude=1, point=ORIGIN, add_light = True, **kwargs):
+    def __init__(self, magnitude=1, point=ORIGIN, add_light=True, **kwargs):
         VGroup.__init__(self, **kwargs)
         self.magnitude = magnitude
         self.point = point
         self.radius = (abs(magnitude) * 0.4 if abs(magnitude) < 2 else 0.8) * 0.3
-        
+
         if magnitude > 0:
             label = VGroup(
                 Rectangle(width=0.32 * 1.1, height=0.006 * 1.1),
@@ -32,7 +32,7 @@ class Charge(VGroup):
             layer_colors = ["#3399FF", "#66B2FF"]
             layer_radius = 2
 
-        if add_light: # use many arcs to simulate lighting 
+        if add_light:  # use many arcs to simulate lighting
             layer_num = 80
             color_list = color_gradient(layer_colors, layer_num)
             opacity_func = lambda t: 1500 * (1 - abs(t - 0.009) ** 0.0001)
@@ -51,14 +51,18 @@ class Charge(VGroup):
                     ).shift(point)
                 )
 
-        self.add(Dot(point=self.point, radius= self.radius, color = color))
+        self.add(Dot(point=self.point, radius=self.radius, color=color))
         self.add(label.scale(self.radius / 0.3).shift(point))
 
 
 class ElectricField(ArrowVectorField):
     def __init__(self, *charges: Charge, **kwargs):
         self.charges = charges
-        super().__init__(lambda p: self.field_func(p), length_func = lambda norm: 0.4 * sigmoid(norm), **kwargs)
+        super().__init__(
+            lambda p: self.field_func(p),
+            length_func=lambda norm: 0.4 * sigmoid(norm),
+            **kwargs
+        )
 
     def field_func(self, p):
         direction = np.zeros(3)
@@ -80,7 +84,7 @@ class ElectricField(ArrowVectorField):
         return direction
 
         return direction
-    
+
     def get_force_on_charge(self, charge):
         p = charge.get_center()
         direction = np.zeros(3)
@@ -91,11 +95,13 @@ class ElectricField(ArrowVectorField):
             x, y, z = p - p0
             dist = (x ** 2 + y ** 2) ** 1.5
             if (x ** 2) > 0.05 or (y ** 2) > 0.05:
-                direction += (mag * np.array([x / dist, y / dist, 0]))
+                direction += mag * np.array([x / dist, y / dist, 0])
             else:
                 direction += np.zeros(3)
         length = (direction[0] ** 2 + direction[1] ** 2) ** 0.5
-        vec_start = Vector(direction / length * charge.radius).shift(charge.point).get_end()
+        vec_start = (
+            Vector(direction / length * charge.radius).shift(charge.point).get_end()
+        )
         return Vector(direction).shift(vec_start)
 
 
@@ -138,7 +144,8 @@ class CurrentMagneticField(ArrowVectorField):
             else:
                 direction += np.zeros(3)
         for p0 in pos:
-            if all(p==p0): direction = np.zeros(3)
+            if all(p == p0):
+                direction = np.zeros(3)
         return direction
 
 
@@ -180,11 +187,14 @@ class BarMagneticField(CurrentMagneticField):
         currents = []
         for bar in bars:
             width = np.linalg.norm(
-                bar.bar[0].get_vertices()[1]-bar.bar[0].get_vertices()[0]
+                bar.bar[0].get_vertices()[1] - bar.bar[0].get_vertices()[0]
             )
-            length = np.linalg.norm(
-                bar.bar[0].get_vertices()[2]-bar.bar[0].get_vertices()[1]
-            )*2
+            length = (
+                np.linalg.norm(
+                    bar.bar[0].get_vertices()[2] - bar.bar[0].get_vertices()[1]
+                )
+                * 2
+            )
             currents_ = []
             currents_ += [
                 Current(magnitude=-1).move_to(i)
