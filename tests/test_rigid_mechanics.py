@@ -17,7 +17,6 @@ class OneObjectFalling(SpaceScene):
 # use a SpaceScene to utilize all specific rigid-mechanics methods
 class TwoObjectsFalling(SpaceScene):
     def construct(self):
-
         circle = Circle().shift(UP)
         circle.set_fill(RED, 1)
         circle.shift(DOWN + RIGHT)
