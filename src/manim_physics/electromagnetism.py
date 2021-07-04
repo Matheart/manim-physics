@@ -12,7 +12,7 @@ from manim import *
 
 
 class Charge(VGroup):
-    def __init__(self, magnitude=1, point=ORIGIN, add_light=True, **kwargs):
+    def __init__(self, magnitude=1, point=ORIGIN, add_glow=True, **kwargs):
         VGroup.__init__(self, **kwargs)
         self.magnitude = magnitude
         self.point = point
@@ -74,15 +74,13 @@ class ElectricField(ArrowVectorField):
             if x == 0 and y == 0:
                 return np.zeros(3)
             dist = (x ** 2 + y ** 2) ** 1.5
-            if (x ** 2) > 0.05 or (y ** 2) > 0.05:
+            if (x ** 2) > 0.01 or (y ** 2) > 0.01:
                 direction += mag * np.array([x / dist, y / dist, 0])
             else:
                 direction += np.zeros(3)
         for p0 in pos:
             if all(p == p0):
                 direction = np.zeros(3)
-        return direction
-
         return direction
 
     def get_force_on_charge(self, charge):
@@ -94,7 +92,7 @@ class ElectricField(ArrowVectorField):
             p0, mag = other_charge.get_center(), other_charge.magnitude
             x, y, z = p - p0
             dist = (x ** 2 + y ** 2) ** 1.5
-            if (x ** 2) > 0.05 or (y ** 2) > 0.05:
+            if (x ** 2) > 0.01 or (y ** 2) > 0.01:
                 direction += mag * np.array([x / dist, y / dist, 0])
             else:
                 direction += np.zeros(3)
@@ -138,7 +136,7 @@ class CurrentMagneticField(ArrowVectorField):
             x0, y0, z0 = point = current.get_center()
             mag = current.magnitude
             pos.append(point)
-            if (x - x0) ** 2 > 0.05 or (y - y0) ** 2 > 0.05:
+            if (x - x0) ** 2 > 0.01 or (y - y0) ** 2 > 0.01:
                 dist = np.linalg.norm(p - point)
                 direction += mag * np.array([-(y - y0), (x - x0), 0]) / dist ** 3
             else:
