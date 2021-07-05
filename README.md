@@ -12,7 +12,7 @@ Contributors:
     - [Rigid Mechanics](#rigid-mechanics)
     - [Electromagnetism](#electromagnetism)
     - [Waves](#waves)
-    - [Pendulum]()
+    - [Pendulums](#pendulums)
 - [Contribution Guidelines](#contribution-guidelines)
 - [Changelog](#changelog)
 # Installation
