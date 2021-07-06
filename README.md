@@ -7,14 +7,28 @@ Contributors:
 - [**Matheart**](https://github.com/Matheart)
 - [**Iced-Tea3**](https://github.com/Iced-Tea3)
 ## Contents
+- [manim-physics (Under Active Development)](#manim-physics-under-active-development)
+  - [Introduction](#introduction)
+  - [Contents](#contents)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Rigid Mechanics](#rigid-mechanics)
-    - [Electromagnetism](#electromagnetism)
-    - [Waves](#waves)
-    - [Pendulums](#pendulums)
+  - [Rigid Mechanics](#rigid-mechanics)
+  - [Electromagnetism](#electromagnetism)
+  - [Waves](#waves)
+  - [Pendulums](#pendulums)
 - [Contribution Guidelines](#contribution-guidelines)
+- [Other beautiful animations based on manim-physics](#other-beautiful-animations-based-on-manim-physics)
 - [Changelog](#changelog)
+  - [**v0.2.2 2021.07.06**](#v022-20210706)
+    - [New objects](#new-objects)
+    - [Bugfixes](#bugfixes)
+    - [Improvements](#improvements)
+  - [**v0.2.1 2021.07.03**](#v021-20210703)
+    - [New objects](#new-objects-1)
+    - [Bugfixes](#bugfixes-1)
+    - [Improvements](#improvements-1)
+  - [**v0.2.0 2021.07.01**](#v020-20210701)
+    - [Breaking Changes](#breaking-changes)
 # Installation
 `manim-physics` is a package on pypi, and can be directly installed using pip:
 ```
@@ -195,22 +209,30 @@ The manim-physics plugin contains objects that are classified into **several mai
 If you want to add more objects to the plugin, The classes of the objects should be placed in the python file of corresponding branch, for example, `wave.py`, and place it under the folder src\manim_physics. The tests of objects should be named as `test_thefilename.py` such as `test_wave.py`, with some documentation, so the maintainer of this repo could ensure that it runs as expected.
 
 
-## Other beautiful animations based on manim-physics
+# Other beautiful animations based on manim-physics
 
 ![Falling formulas](/media/TexFalling_ManimCE_v0.7.0.gif)
 
-## Changelog
-### **v0.2.1 2021.07.03**
-#### New objects
+# Changelog
+## **v0.2.2 2021.07.06**
+### New objects
+- **Rigid Mechanics**: Pendulum
+### Bugfixes
+- Fix the __all__ bug, now `rigid_mechanics.py` can run normally.
+### Improvements
+- Rewrite README.md to improve its readability
+
+## **v0.2.1 2021.07.03**
+### New objects
 - **Electromagnetism**: Charge, ElectricField, Current, CurrentMagneticField, BarMagnet, and BarMagnetField
 - **Wave**: LinearWave, RadialWave, StandingWave
 
-#### Bugfixes
+### Bugfixes
 - Fix typo
 
-#### Improvements
+### Improvements
 - Simplify rigid-mechanics
 
-### **v0.2.0 2021.07.01**
-#### Breaking Changes
-Objects in the manim-physics plugin are classified into several **main branches** including rigid mechanics simulation, electromagnetism and wave.
+## **v0.2.0 2021.07.01**
+### Breaking Changes
+- Objects in the manim-physics plugin are classified into several **main branches** including rigid mechanics simulation, electromagnetism and wave.
