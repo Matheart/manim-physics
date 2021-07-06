@@ -184,4 +184,4 @@ $RECYCLE.BIN/
 *.aux
 # End of https://www.gitignore.io/api/c++,linux,macos,windows,visualstudiocode
 
-/dist
+dist/
