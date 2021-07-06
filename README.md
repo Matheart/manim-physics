@@ -218,7 +218,7 @@ If you want to add more objects to the plugin, The classes of the objects should
 ### New objects
 - **Rigid Mechanics**: Pendulum
 ### Bugfixes
-- Fix the __all__ bug, now `rigid_mechanics.py` can run normally.
+- Fix the `__all__` bug, now `rigid_mechanics.py` can run normally.
 ### Improvements
 - Rewrite README.md to improve its readability
 
