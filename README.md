@@ -5,7 +5,7 @@ This is a 2D physics simulation plugin that allows you to generate complicated s
 Contributors: 
 - [**pdcxs**](https://github.com/pdcxs)
 - [**Matheart**](https://github.com/Matheart)
-- [**Iced-Tea3**](https://github.com/Iced-Tea3)
+- [**icedcoffeeee**](https://github.com/icedcoffeeee)
 ## Contents
 - [manim-physics (Under Active Development)](#manim-physics-under-active-development)
   - [Introduction](#introduction)
