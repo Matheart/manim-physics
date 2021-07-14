@@ -32,7 +32,7 @@ class Charge(VGroup):
             layer_colors = ["#3399FF", "#66B2FF"]
             layer_radius = 2
 
-        if add_glow: # use many arcs to simulate glowing
+        if add_glow:  # use many arcs to simulate glowing
             layer_num = 80
             color_list = color_gradient(layer_colors, layer_num)
             opacity_func = lambda t: 1500 * (1 - abs(t - 0.009) ** 0.0001)
@@ -73,8 +73,6 @@ class ElectricField(ArrowVectorField):
             p0, mag = charge.get_center(), charge.magnitude
             pos.append(p0)
             x, y, z = p - p0
-            if x == 0 and y == 0:
-                return np.zeros(3)
             dist = (x ** 2 + y ** 2) ** 1.5
             if all((p - p0) ** 2 > 0.01):
                 direction += mag * np.array([x / dist, y / dist, 0])
