@@ -20,8 +20,8 @@ class Charge(VGroup):
 
         if magnitude > 0:
             label = VGroup(
-                Rectangle(width=0.32 * 1.1, height=0.006 * 1.1),
-                Rectangle(width=0.006 * 1.1, height=0.32 * 1.1),
+                Rectangle(width=0.32 * 1.1, height=0.006 * 1.1).set_z_index(1),
+                Rectangle(width=0.006 * 1.1, height=0.32 * 1.1).set_z_index(1),
             )
             color = RED
             layer_colors = [RED_D, RED_A]
@@ -53,6 +53,8 @@ class Charge(VGroup):
 
         self.add(Dot(point=self.point, radius=self.radius, color=color))
         self.add(label.scale(self.radius / 0.3).shift(point))
+        for mob in self:
+            mob.set_z_index(1)
 
 
 class ElectricField(ArrowVectorField):
