@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "manim-physics"
-version = "0.2.2"
+version = "0.2.3"
 description = "Support physics simulation"
 authors = ["Matheart <waautomationwong@gmail.com>"]
 repository = "https://github.com/Matheart/manim-physics"

@@ -19,13 +19,15 @@ Contributors:
 - [Contribution Guidelines](#contribution-guidelines)
 - [Other beautiful animations based on manim-physics](#other-beautiful-animations-based-on-manim-physics)
 - [Changelog](#changelog)
+  - [**v0.2.3 2021.07.14**](#v023-20210714)
+    - [Bugfixes](#bugfixes)
   - [**v0.2.2 2021.07.06**](#v022-20210706)
     - [New objects](#new-objects)
-    - [Bugfixes](#bugfixes)
+    - [Bugfixes](#bugfixes-1)
     - [Improvements](#improvements)
   - [**v0.2.1 2021.07.03**](#v021-20210703)
     - [New objects](#new-objects-1)
-    - [Bugfixes](#bugfixes-1)
+    - [Bugfixes](#bugfixes-2)
     - [Improvements](#improvements-1)
   - [**v0.2.0 2021.07.01**](#v020-20210701)
     - [Breaking Changes](#breaking-changes)
@@ -214,6 +216,9 @@ If you want to add more objects to the plugin, The classes of the objects should
 ![Falling formulas](/media/TexFalling_ManimCE_v0.7.0.gif)
 
 # Changelog
+## **v0.2.3 2021.07.14**
+### Bugfixes
+- Fix the small arrow bug in `ElectricField`
 ## **v0.2.2 2021.07.06**
 ### New objects
 - **Rigid Mechanics**: Pendulum
