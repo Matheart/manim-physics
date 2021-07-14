@@ -20,8 +20,8 @@ class Charge(VGroup):
 
         if magnitude > 0:
             label = VGroup(
-                Rectangle(width=0.32 * 1.1, height=0.006 * 1.1),
-                Rectangle(width=0.006 * 1.1, height=0.32 * 1.1),
+                Rectangle(width=0.32 * 1.1, height=0.006 * 1.1).set_z_index(1),
+                Rectangle(width=0.006 * 1.1, height=0.32 * 1.1).set_z_index(1),
             )
             color = RED
             layer_colors = [RED_D, RED_A]
@@ -32,7 +32,7 @@ class Charge(VGroup):
             layer_colors = ["#3399FF", "#66B2FF"]
             layer_radius = 2
 
-        if add_glow: # use many arcs to simulate glowing
+        if add_glow:  # use many arcs to simulate glowing
             layer_num = 80
             color_list = color_gradient(layer_colors, layer_num)
             opacity_func = lambda t: 1500 * (1 - abs(t - 0.009) ** 0.0001)
@@ -53,6 +53,8 @@ class Charge(VGroup):
 
         self.add(Dot(point=self.point, radius=self.radius, color=color))
         self.add(label.scale(self.radius / 0.3).shift(point))
+        for mob in self:
+            mob.set_z_index(1)
 
 
 class ElectricField(ArrowVectorField):
@@ -60,7 +62,6 @@ class ElectricField(ArrowVectorField):
         self.charges = charges
         super().__init__(
             lambda p: self.field_func(p),
-            length_func=lambda norm: 0.4 * sigmoid(norm),
             **kwargs
         )
 
@@ -71,15 +72,13 @@ class ElectricField(ArrowVectorField):
             p0, mag = charge.get_center(), charge.magnitude
             pos.append(p0)
             x, y, z = p - p0
-            if x == 0 and y == 0:
-                return np.zeros(3)
             dist = (x ** 2 + y ** 2) ** 1.5
-            if all((p - p0) ** 2 > 0.01):
+            if any((p - p0) ** 2 > 0.05):
                 direction += mag * np.array([x / dist, y / dist, 0])
             else:
                 direction += np.zeros(3)
         for p0 in pos:
-            if all((p - p0) **2 <= 0.01):
+            if all((p - p0) ** 2 <= 0.05):
                 direction = np.zeros(3)
         return direction
 
