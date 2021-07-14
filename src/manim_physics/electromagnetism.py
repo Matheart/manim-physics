@@ -74,12 +74,12 @@ class ElectricField(ArrowVectorField):
             if x == 0 and y == 0:
                 return np.zeros(3)
             dist = (x ** 2 + y ** 2) ** 1.5
-            if (x ** 2) > 0.01 or (y ** 2) > 0.01:
+            if all((p - p0) ** 2 > 0.01):
                 direction += mag * np.array([x / dist, y / dist, 0])
             else:
                 direction += np.zeros(3)
         for p0 in pos:
-            if all(p == p0):
+            if all((p - p0) **2 <= 0.01):
                 direction = np.zeros(3)
         return direction
 
@@ -136,13 +136,13 @@ class CurrentMagneticField(ArrowVectorField):
             x0, y0, z0 = point = current.get_center()
             mag = current.magnitude
             pos.append(point)
-            if (x - x0) ** 2 > 0.01 or (y - y0) ** 2 > 0.01:
+            if all((p - point) ** 2 > 0.01):
                 dist = np.linalg.norm(p - point)
                 direction += mag * np.array([-(y - y0), (x - x0), 0]) / dist ** 3
             else:
                 direction += np.zeros(3)
         for p0 in pos:
-            if all(p == p0):
+            if all((p - p0) ** 2 <= 0.01):
                 direction = np.zeros(3)
         return direction
 
