@@ -73,12 +73,12 @@ class ElectricField(ArrowVectorField):
             pos.append(p0)
             x, y, z = p - p0
             dist = (x ** 2 + y ** 2) ** 1.5
-            if all((p - p0) ** 2 > 0.01):
+            if any((p - p0) ** 2 > 0.05):
                 direction += mag * np.array([x / dist, y / dist, 0])
             else:
                 direction += np.zeros(3)
         for p0 in pos:
-            if all((p - p0) **2 <= 0.01):
+            if all((p - p0) ** 2 <= 0.05):
                 direction = np.zeros(3)
         return direction
 
