@@ -62,7 +62,6 @@ class ElectricField(ArrowVectorField):
         self.charges = charges
         super().__init__(
             lambda p: self.field_func(p),
-            length_func=lambda norm: 0.4 * sigmoid(norm),
             **kwargs
         )
 
