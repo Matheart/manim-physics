@@ -53,8 +53,8 @@ class SpaceScene(Scene):
                     p.shape.friction = friction
                     p.spacescene = self
 
-                self.add_body(p)
-                p.add_updater(simulate)
+                    self.add_body(p)
+                    p.add_updater(simulate)
 
             else:
                 if mob.body.is_sleeping:
