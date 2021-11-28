@@ -27,14 +27,14 @@ class MultiPendulum(VGroup):
         self.pins += bobs
         self.rods = VGroup()
         self.rods += always_redraw(
-            lambda: Line(self.pivot_point, self.bobs[0].get_center())
+            lambda: Line(self.pivot_point, self.bobs[0].get_center(), **rod_style)
         )
         self.rods += always_redraw(
             lambda: VGroup(
-                *[
-                    Line(self.bobs[i].get_center(), self.bobs[i + 1].get_center())
+                *(
+                    Line(self.bobs[i].get_center(), self.bobs[i + 1].get_center(), **rod_style)
                     for i in range(len(bobs) - 1)
-                ]
+                )
             )
         )
 
