@@ -1,6 +1,7 @@
-# manim-physics (Under Active Development)
+# manim-physics 
 ## Introduction
 This is a 2D physics simulation plugin that allows you to generate complicated scenes in various branches of Physics such as rigid mechanics, electromagnetism, wave etc.
+**Due to some reason, I (Matheart) may not have time to maintain this repo, if you want to contribute please seek help from other contributers.**
 
 Contributors: 
 - [**pdcxs**](https://github.com/pdcxs)
