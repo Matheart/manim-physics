@@ -1,3 +1,5 @@
+"""Electrostatics and magnetics module"""
+
 __all__ = [
     "Charge",
     "ElectricField",
@@ -7,12 +9,31 @@ __all__ = [
     "BarMagneticField",
 ]
 
-from typing import Sequence
 from manim import *
 
 
 class Charge(VGroup):
-    def __init__(self, magnitude=1, point=ORIGIN, add_glow=True, **kwargs):
+    def __init__(
+        self,
+        magnitude: float = 1,
+        point: np.ndarray = ORIGIN,
+        add_glow: bool = True,
+        **kwargs
+    ) -> None:
+        """An electrostatic charge object. Commonly used for :class:`~ElectricField`.
+
+        Parameters
+        ----------
+        magnitude
+            The strength of the electrostatic charge.
+        point
+            The position of the charge.
+        add_glow
+            Whether to add a glowing effect. Adds rings of
+            varying opacities to simulate glowing effect.
+        kwargs
+            Additional parameters to be passed to ``VGroup``.
+        """
         VGroup.__init__(self, **kwargs)
         self.magnitude = magnitude
         self.point = point
@@ -58,14 +79,36 @@ class Charge(VGroup):
 
 
 class ElectricField(ArrowVectorField):
-    def __init__(self, *charges: Charge, **kwargs):
-        self.charges = charges
-        super().__init__(
-            lambda p: self.field_func(p),
-            **kwargs
-        )
+    def __init__(self, *charges: Charge, **kwargs) -> None:
+        """An electric field.
 
-    def field_func(self, p):
+        Parameters
+        ----------
+        charges
+            The charges affecting the electric field.
+        kwargs
+            Additional parameters to be passed to ``ArrowVectorField``.
+
+        Examples
+        --------
+        .. manim:: ElectricFieldExampleScene
+            :save_last_frame:
+
+            from manim_physics import *
+
+            class ElectricFieldExampleScene(Scene):
+                def construct(self):
+                    charge1 = Charge(-1, LEFT + DOWN)
+                    charge2 = Charge(2, RIGHT + DOWN)
+                    charge3 = Charge(-1, UP)
+                    field = ElectricField(charge1, charge2, charge3)
+                    self.add(charge1, charge2, charge3)
+                    self.add(field)
+        """
+        self.charges = charges
+        super().__init__(lambda p: self._field_func(p), **kwargs)
+
+    def _field_func(self, p: np.ndarray) -> np.ndarray:
         direction = np.zeros(3)
         pos = []
         for charge in self.charges:
@@ -82,7 +125,10 @@ class ElectricField(ArrowVectorField):
                 direction = np.zeros(3)
         return direction
 
-    def get_force_on_charge(self, charge):
+    def get_force_on_charge(self, charge: Charge) -> Vector:
+        """Returns a vector corresponding to the force
+        of the electric field on the charge.
+        """
         p = charge.get_center()
         direction = np.zeros(3)
         for other_charge in self.charges:
@@ -90,7 +136,7 @@ class ElectricField(ArrowVectorField):
                 continue
             p0, mag = other_charge.get_center(), other_charge.magnitude
             x, y, z = p - p0
-            dist = (x ** 2 + y ** 2) ** 1.5
+            dist = np.linalg.norm(p - p0) ** 3
             if (x ** 2) > 0.01 or (y ** 2) > 0.01:
                 direction += mag * np.array([x / dist, y / dist, 0])
             else:
@@ -104,8 +150,26 @@ class ElectricField(ArrowVectorField):
 
 class Current(VGroup):
     def __init__(
-        self, point: Sequence[float] = ORIGIN, magnitude=1, direction=OUT, **kwargs
-    ):
+        self,
+        point: np.ndarray = ORIGIN,
+        magnitude: float = 1,
+        direction: np.ndarray = OUT,
+        **kwargs
+    ) -> None:
+        """A electric current object. Used commonly with :class:`~CurrentMagneticField`.
+
+        Parameters
+        ----------
+        point
+            The position of the current.
+        magnitude
+            The strength of the current flow.
+        direction
+            The direction of current. Currently accepts
+            only ``IN`` or ``OUT``.
+        kwargs
+            Additional parameters to be passed to ``VGroup``.
+        """
         if np.all(direction == OUT) or np.all(direction == IN):
             self.direction = direction
         else:
@@ -124,10 +188,33 @@ class Current(VGroup):
 
 
 class CurrentMagneticField(ArrowVectorField):
-    def __init__(self, *currents: Current, **kwargs):
-        super().__init__(lambda p: self.field_func(p, *currents), **kwargs)
+    def __init__(self, *currents: Current, **kwargs) -> None:
+        """A magnetic field induced by current sources.
 
-    def field_func(self, p, *currents):
+        Parameters
+        ----------
+        currents
+            The current sources affecting the magnetic field.
+        kwargs
+            Additional parameters to be passed to ``ArrowVectorField``.
+
+        Examples
+        --------
+        .. manim:: MagnetismExample
+            :save_last_frame:
+
+            from manim_physics import *
+
+            class MagnetismExample(Scene):
+                def construct(self):
+                    current1 = Current(LEFT * 2.5)
+                    current2 = Current(RIGHT * 2.5, direction=IN)
+                    field = CurrentMagneticField(current1, current2)
+                    self.add(field, current1, current2)
+        """
+        super().__init__(lambda p: self._field_func(p, *currents), **kwargs)
+
+    def _field_func(self, p, *currents):
         direction = np.zeros(3)
         pos = []
         for current in currents:
@@ -149,17 +236,29 @@ class CurrentMagneticField(ArrowVectorField):
 class BarMagnet(VGroup):
     def __init__(
         self,
-        north: Sequence[float] = UP,
-        south: Sequence[float] = DOWN,
+        north: np.ndarray = UP,
+        south: np.ndarray = DOWN,
         height: float = 2,
         width: float = 1,
         **kwargs
-    ):
+    ) -> None:
+        """A bar magnet. Commonly used with :class:`~BarMagneticField`.
+
+        Parameters
+        ----------
+        north
+            The position of the north pole of the magnet.
+        south
+            The position of the south pole of the magnet.
+        height
+            The height of the magnet.
+        width
+            The width of the magnet.
+        """
         self.length = np.linalg.norm(north - south)
-        # self.width = width
         super().__init__(**kwargs)
-        if width > height:
-            raise ValueError("Bar magnet must be taller than it's width")
+        # if width > height:
+        #     raise ValueError("Bar magnet must be taller than it's width")
         self.bar = VGroup(
             Rectangle(
                 height=height / 2, width=width, fill_opacity=1, color=RED
@@ -171,16 +270,39 @@ class BarMagnet(VGroup):
         self.north_label = Tex("N").shift(UP * (self.length / 2 - 0.5))
         self.south_label = Tex("S").shift(UP * -(self.length / 2 - 0.5))
         self.add(self.bar, self.north_label, self.south_label)
-        self.rotate(-PI / 2 + angle_of_vector(self.get_south_to_north()))
+        self.rotate(-PI / 2 + angle_of_vector(self._get_south_to_north()))
 
-    def get_south_to_north(self):
+    def _get_south_to_north(self) -> Vector:
         return Vector(
             self.north_label.get_center() - self.south_label.get_center()
         ).get_vector()
 
 
 class BarMagneticField(CurrentMagneticField):
-    def __init__(self, *bars: BarMagnet, **kwargs):
+    def __init__(self, *bars: BarMagnet, **kwargs) -> None:
+        """A magnetic field from a bar magnet.
+
+        Parameters
+        ----------
+        bars
+            The bar magnets affecting the magnetic field.
+        kwargs
+            Additional parameters to be passed to ``ArrowVectorField``.
+
+        Examples
+        --------
+        .. manim:: BarMagnetExample
+            :save_last_frame:
+
+            from manim_physics import *
+
+            class BarMagnetExample(Scene):
+                def construct(self):
+                    bar1 = BarMagnet().rotate(PI / 2).shift(LEFT * 3.5)
+                    bar2 = BarMagnet().rotate(PI / 2).shift(RIGHT * 3.5)
+                    self.add(BarMagneticField(bar1, bar2))
+                    self.add(bar1, bar2)
+        """
         currents = []
         for bar in bars:
             width = np.linalg.norm(
@@ -210,7 +332,7 @@ class BarMagneticField(CurrentMagneticField):
                 )
             ]
             VGroup(*currents_).rotate(
-                -PI / 2 + angle_of_vector(bar.get_south_to_north())
+                -PI / 2 + angle_of_vector(bar._get_south_to_north())
             ).shift(bar.get_center())
             currents += currents_
 
