@@ -10,6 +10,7 @@ readme="README.md"
 python = "^3.8"
 manim = ">=0.6.0"
 pymunk = "^6.0.0"
+Shapely = "^1.8.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
