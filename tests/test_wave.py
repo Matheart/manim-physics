@@ -1,6 +1,6 @@
 from manim import *
 
-from manim_physics.wave_physics import *
+from manim_physics.wave import *
 
 
 class LinearWaveExampleScene(ThreeDScene):

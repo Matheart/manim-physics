@@ -21,7 +21,7 @@ class RadialWave(Surface):
         y_range: Iterable[float] = [-5, 5],
         **kwargs
     ) -> None:
-        """A 3D Surface with waves in one direction.
+        """A 3D Surface with waves moving radially.
 
         Parameters
         ----------
@@ -38,7 +38,7 @@ class RadialWave(Surface):
         y_range
             The range of the wave in the y direction.
         kwargs
-            Additional parameters to be passed to :class:`~Surface`
+            Additional parameters to be passed to :class:`~Surface`.
         """
         self.wavelength = wavelength
         self.period = period
@@ -94,7 +94,7 @@ class LinearWave(RadialWave):
         y_range: Iterable[float] = [-5, 5],
         **kwargs
     ) -> None:
-        """A 3D Surface with waves moving radially.
+        """A 3D Surface with waves in one direction.
 
         Parameters
         ----------
@@ -150,6 +150,25 @@ class StandingWave(ParametricFunction):
             The maximum height of the wave.
         kwargs
             Additional parameters to be passed to :class:`~ParametricFunction`.
+        
+        Examples
+        --------
+        .. manim:: StandingWaveExampleScene
+
+            from manim_physics import *
+
+            class StandingWaveExampleScene(Scene):
+                def construct(self):
+                    wave1 = StandingWave(1)
+                    wave2 = StandingWave(2)
+                    wave3 = StandingWave(3)
+                    wave4 = StandingWave(4)
+                    waves = VGroup(wave1, wave2, wave3, wave4)
+                    waves.arrange(DOWN).move_to(ORIGIN)
+                    self.add(waves)
+                    for wave in waves:
+                        wave.start_wave()
+                    self.wait()
         """
         self.n = n
         self.length = length

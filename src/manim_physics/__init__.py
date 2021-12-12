@@ -4,4 +4,4 @@ from .electromagnetism import *
 from .pendulum import *
 from .ray import *
 from .rigid_mechanics import *
-from .wave_physics import *
+from .wave import *
