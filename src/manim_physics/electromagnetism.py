@@ -191,7 +191,7 @@ class Current(VGroup):
 class BarMagnet(VGroup):
     def __init__(
         self,
-        north_direction: np.ndarray = UR,
+        north_direction: np.ndarray = UP,
         height: float = 2,
         width: float = 1,
         north_style: dict = {
@@ -204,7 +204,7 @@ class BarMagnet(VGroup):
         },
         **kwargs,
     ) -> None:
-        """A bar magnet. Commonly used with :class:`~BarMagneticField`.
+        """A bar magnet. Commonly used with :class:`~MagneticField`.
 
         Parameters
         ----------
@@ -273,7 +273,7 @@ class MagneticField(ArrowVectorField):
             The currents or bar magnets that make up the magnetic field.
         kwargs
             Additional parameters to be passed to ``ArrowVectorField``.
-        
+
         Examples
         --------
         .. manim:: MagnetismExampleScene

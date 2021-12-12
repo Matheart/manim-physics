@@ -8,9 +8,10 @@ __all__ = [
 
 from typing import Iterable
 from manim import *
+from manim.mobject.opengl_compatibility import ConvertToOpenGL
 
 
-class RadialWave(Surface):
+class RadialWave(Surface, metaclass=ConvertToOpenGL):
     def __init__(
         self,
         *sources: Optional[np.ndarray],
@@ -39,6 +40,24 @@ class RadialWave(Surface):
             The range of the wave in the y direction.
         kwargs
             Additional parameters to be passed to :class:`~Surface`.
+
+        Examples
+        --------
+        .. manim:: RadialWaveExampleScene
+
+            class RadialWaveExampleScene(ThreeDScene):
+                def construct(self):
+                    self.set_camera_orientation(60 * DEGREES, -45 * DEGREES)
+                    wave = RadialWave(
+                        LEFT * 2 + DOWN * 5,  # Two source of waves
+                        RIGHT * 2 + DOWN * 5,
+                        checkerboard_colors=[BLUE_D],
+                        stroke_width=0,
+                    )
+                    self.add(wave)
+                    wave.start_wave()
+                    self.wait()
+                    wave.stop_wave()
         """
         self.wavelength = wavelength
         self.period = period
@@ -66,7 +85,7 @@ class RadialWave(Surface):
 
     def _update_wave(self, mob: Mobject, dt: float) -> None:
         self.time += dt
-        mob.become(
+        mob.match_points(
             Surface(
                 lambda u, v: np.array([u, v, self._wave_z(u, v, self.sources)]),
                 u_range=self.u_range,
@@ -109,7 +128,20 @@ class LinearWave(RadialWave):
         y_range
             The range of the wave in the y direction.
         kwargs
-            Additional parameters to be passed to :class:`~Surface`
+            Additional parameters to be passed to :class:`~Surface`.
+
+        Examples
+        --------
+        .. manim:: LinearWaveExampleScene
+
+            class LinearWaveExampleScene(ThreeDScene):
+                def construct(self):
+                    self.set_camera_orientation(60 * DEGREES, -45 * DEGREES)
+                    wave = LinearWave()
+                    self.add(wave)
+                    wave.start_wave()
+                    self.wait()
+                    wave.stop_wave()
         """
         super().__init__(
             ORIGIN,
