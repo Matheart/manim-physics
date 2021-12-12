@@ -1,0 +1,4 @@
+sphinx
+furo
+recommonmark
+sphinx-copybutton
