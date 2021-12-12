@@ -150,7 +150,7 @@ class StandingWave(ParametricFunction):
             The maximum height of the wave.
         kwargs
             Additional parameters to be passed to :class:`~ParametricFunction`.
-        
+
         Examples
         --------
         .. manim:: StandingWaveExampleScene
