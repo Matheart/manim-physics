@@ -116,7 +116,7 @@ class MagnetismExample(Scene):
     def construct(self):
         current1 = Current(LEFT * 2.5)
         current2 = Current(RIGHT * 2.5, direction=IN)
-        field = CurrentMagneticField(current1, current2)
+        field = MagneticField(current1, current2)
         self.add(field, current1, current2)
 ```
 ![MagnetismExample](/media/MagnetismExample_ManimCE_v0.8.0.png)
@@ -125,7 +125,7 @@ class BarMagnetExample(Scene):
     def construct(self):
         bar1 = BarMagnet().rotate(PI / 2).shift(LEFT * 3.5)
         bar2 = BarMagnet().rotate(PI / 2).shift(RIGHT * 3.5)
-        self.add(BarMagneticField(bar1, bar2))
+        self.add(MagneticField(bar1, bar2))
         self.add(bar1, bar2)
 ```
 ![BarMagnetExample](/media/BarMagnetExample_ManimCE_v0.8.0.png)
