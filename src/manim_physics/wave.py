@@ -1,155 +1,222 @@
+"""3D and 2D Waves module."""
+
 __all__ = [
     "LinearWave",
     "RadialWave",
     "StandingWave",
 ]
 
+from typing import Iterable
 from manim import *
+from manim.mobject.opengl_compatibility import ConvertToOpenGL
 
 
-class LinearWave(ParametricSurface):
+class RadialWave(Surface, metaclass=ConvertToOpenGL):
     def __init__(
         self,
-        wavelength=1,
-        period=1,
-        amplitude=0.1,
-        x_range=[-5, 5],
-        y_range=[-5, 5],
+        *sources: Optional[np.ndarray],
+        wavelength: float = 1,
+        period: float = 1,
+        amplitude: float = 0.1,
+        x_range: Iterable[float] = [-5, 5],
+        y_range: Iterable[float] = [-5, 5],
         **kwargs
-    ):
+    ) -> None:
+        """A 3D Surface with waves moving radially.
+
+        Parameters
+        ----------
+        sources
+            The sources of disturbance.
+        wavelength
+            The wavelength of the wave.
+        period
+            The period of the wave.
+        amplitude
+            The amplitude of the wave.
+        x_range
+            The range of the wave in the x direction.
+        y_range
+            The range of the wave in the y direction.
+        kwargs
+            Additional parameters to be passed to :class:`~Surface`.
+
+        Examples
+        --------
+        .. manim:: RadialWaveExampleScene
+
+            class RadialWaveExampleScene(ThreeDScene):
+                def construct(self):
+                    self.set_camera_orientation(60 * DEGREES, -45 * DEGREES)
+                    wave = RadialWave(
+                        LEFT * 2 + DOWN * 5,  # Two source of waves
+                        RIGHT * 2 + DOWN * 5,
+                        checkerboard_colors=[BLUE_D],
+                        stroke_width=0,
+                    )
+                    self.add(wave)
+                    wave.start_wave()
+                    self.wait()
+                    wave.stop_wave()
+        """
         self.wavelength = wavelength
         self.period = period
         self.amplitude = amplitude
         self.time = 0
-        self.extra = {**kwargs}
-        self.u_min = x_range[0]
-        self.u_max = x_range[1]
-        self.v_min = y_range[0]
-        self.v_max = y_range[1]
-
-        super().__init__(
-            lambda u, v: np.array(
-                [
-                    u,
-                    v,
-                    amplitude
-                    * np.sin((2 * PI / wavelength) * u - 2 * PI * self.time / period),
-                ]
-            ),
-            u_min=self.u_min,
-            u_max=self.u_max,
-            v_min=self.v_min,
-            v_max=self.v_max,
-            **kwargs
-        )
-
-    def update_wave(self, mob, dt):
-        self.time += dt
-        mob.become(
-            ParametricSurface(
-                lambda u, v: np.array(
-                    [
-                        u,
-                        v,
-                        self.amplitude
-                        * np.sin(
-                            (2 * PI / self.wavelength) * u
-                            - 2 * PI * self.time / self.period
-                        ),
-                    ]
-                ),
-                u_min=self.u_min,
-                u_max=self.u_max,
-                v_min=self.v_min,
-                v_max=self.v_max,
-                **self.extra
-            )
-        )
-
-    def start_wave(self):
-        self.add_updater(self.update_wave)
-
-    def stop_wave(self):
-        self.remove_updater(self.update_wave)
-
-
-class RadialWave(ParametricSurface):
-    def __init__(
-        self,
-        *sources,
-        wavelength=1,
-        period=1,
-        amplitude=0.1,
-        x_range=[-5, 5],
-        y_range=[-5, 5],
-        **kwargs
-    ):
-        self.wavelength = wavelength
-        self.period = period
-        self.amplitude = amplitude
-        self.time = 0
-        self.extra = {**kwargs}
+        self.kwargs = kwargs
         self.sources = sources
-        self.u_min = x_range[0]
-        self.u_max = x_range[1]
-        self.v_min = y_range[0]
-        self.v_max = y_range[1]
+
         super().__init__(
-            lambda u, v: np.array([u, v, self.wave_z(u, v, *sources)]),
-            u_min=self.u_min,
-            u_max=self.u_max,
-            v_min=self.v_min,
-            v_max=self.v_max,
-            **kwargs
+            lambda u, v: np.array([u, v, self._wave_z(u, v, sources)]),
+            u_range=x_range,
+            v_range=y_range,
+            **kwargs,
         )
 
-    def wave_z(self, u, v, *sources):
+    def _wave_z(self, u: float, v: float, sources: Iterable[np.ndarray]) -> float:
         z = 0
         for source in sources:
-            x0, y0, z0 = source
+            x0, y0, _ = source
             z += self.amplitude * np.sin(
                 (2 * PI / self.wavelength) * ((u - x0) ** 2 + (v - y0) ** 2) ** 0.5
                 - 2 * PI * self.time / self.period
             )
         return z
 
-    def update_wave(self, mob, dt):
+    def _update_wave(self, mob: Mobject, dt: float) -> None:
         self.time += dt
-        mob.become(
-            ParametricSurface(
-                lambda u, v: np.array([u, v, self.wave_z(u, v, *self.sources)]),
-                u_min=self.u_min,
-                u_max=self.u_max,
-                v_min=self.v_min,
-                v_max=self.v_max,
-                **self.extra
+        mob.match_points(
+            Surface(
+                lambda u, v: np.array([u, v, self._wave_z(u, v, self.sources)]),
+                u_range=self.u_range,
+                v_range=self.v_range,
+                **self.kwargs,
             )
         )
 
     def start_wave(self):
-        self.add_updater(self.update_wave)
+        """Animate the wave propagation."""
+        self.add_updater(self._update_wave)
 
     def stop_wave(self):
-        self.remove_updater(self.update_wave)
+        """Stop animating the wave propagation."""
+        self.remove_updater(self._update_wave)
+
+
+class LinearWave(RadialWave):
+    def __init__(
+        self,
+        wavelength: float = 1,
+        period: float = 1,
+        amplitude: float = 0.1,
+        x_range: Iterable[float] = [-5, 5],
+        y_range: Iterable[float] = [-5, 5],
+        **kwargs
+    ) -> None:
+        """A 3D Surface with waves in one direction.
+
+        Parameters
+        ----------
+        wavelength
+            The wavelength of the wave.
+        period
+            The period of the wave.
+        amplitude
+            The amplitude of the wave.
+        x_range
+            The range of the wave in the x direction.
+        y_range
+            The range of the wave in the y direction.
+        kwargs
+            Additional parameters to be passed to :class:`~Surface`.
+
+        Examples
+        --------
+        .. manim:: LinearWaveExampleScene
+
+            class LinearWaveExampleScene(ThreeDScene):
+                def construct(self):
+                    self.set_camera_orientation(60 * DEGREES, -45 * DEGREES)
+                    wave = LinearWave()
+                    self.add(wave)
+                    wave.start_wave()
+                    self.wait()
+                    wave.stop_wave()
+        """
+        super().__init__(
+            ORIGIN,
+            wavelength=wavelength,
+            period=period,
+            amplitude=amplitude,
+            x_range=x_range,
+            y_range=y_range,
+            **kwargs,
+        )
+
+    def _wave_z(self, u: float, v: float, sources: Iterable[np.ndarray]) -> float:
+        return self.amplitude * np.sin(
+            (2 * PI / self.wavelength) * u - 2 * PI * self.time / self.period
+        )
 
 
 class StandingWave(ParametricFunction):
-    def __init__(self, n=2, length=4, period=1, amplitude=1, **kwargs):
+    def __init__(
+        self,
+        n: int = 2,
+        length: float = 4,
+        period: float = 1,
+        amplitude: float = 1,
+        **kwargs
+    ) -> None:
+        """A 2D standing wave.
+
+        Parameters
+        ----------
+        n
+            Harmonic number.
+        length
+            The length of the wave.
+        period
+            The time taken for one full oscillation.
+        amplitude
+            The maximum height of the wave.
+        kwargs
+            Additional parameters to be passed to :class:`~ParametricFunction`.
+
+        Examples
+        --------
+        .. manim:: StandingWaveExampleScene
+
+            from manim_physics import *
+
+            class StandingWaveExampleScene(Scene):
+                def construct(self):
+                    wave1 = StandingWave(1)
+                    wave2 = StandingWave(2)
+                    wave3 = StandingWave(3)
+                    wave4 = StandingWave(4)
+                    waves = VGroup(wave1, wave2, wave3, wave4)
+                    waves.arrange(DOWN).move_to(ORIGIN)
+                    self.add(waves)
+                    for wave in waves:
+                        wave.start_wave()
+                    self.wait()
+        """
         self.n = n
         self.length = length
         self.period = period
         self.amplitude = amplitude
         self.time = 0
-        self.extra = {**kwargs}
+        self.kwargs = {**kwargs}
 
         super().__init__(
             lambda t: np.array([t, amplitude * np.sin(n * PI * t / length), 0]),
             t_range=[0, length],
-            **kwargs
+            **kwargs,
         )
         self.shift([-self.length / 2, 0, 0])
 
-    def update_wave(self, mob, dt):
+    def _update_wave(self, mob: Mobject, dt: float) -> None:
         self.time += dt
         mob.become(
             ParametricFunction(
@@ -163,13 +230,13 @@ class StandingWave(ParametricFunction):
                     ]
                 ),
                 t_range=[0, self.length],
-                **self.extra
+                **self.kwargs,
             ).shift(self.wave_center + [-self.length / 2, 0, 0])
         )
 
     def start_wave(self):
         self.wave_center = self.get_center()
-        self.add_updater(self.update_wave)
+        self.add_updater(self._update_wave)
 
     def stop_wave(self):
-        self.remove_updater(self.update_wave)
+        self.remove_updater(self._update_wave)

@@ -1,0 +1,5 @@
+sphinx
+manim-physics
+furo
+recommonmark
+sphinx-copybutton
