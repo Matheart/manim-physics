@@ -12,7 +12,7 @@
 #
 import os
 import sys
-import manim_physics
+from manim_physics import __version__
 
 sys.path.insert(0, os.path.abspath("../.."))
 
@@ -78,4 +78,4 @@ html_theme = "furo"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 
-html_title = f"Manim Physics v{manim_physics.__version__}"
+html_title = f"Manim Physics v{__version__}"
