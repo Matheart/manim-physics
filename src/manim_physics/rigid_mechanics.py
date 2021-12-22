@@ -67,18 +67,28 @@ from manim import *
 
 
 class Space(Mobject, metaclass=ConvertToOpenGL):
-    def __init__(self, **kwargs):
-        """An abstract object for gravity"""
+    def __init__(self, gravity: tuple[float, float] = (0, -9.81), **kwargs):
+        """An Abstract object for gravity.
+
+        Parameters
+        ----------
+        gravity
+            The direction and strength of gravity.
+        """
         super().__init__(**kwargs)
         self.space = pymunk.Space()
-        self.space.gravity = 0, -9.8
+        self.space.gravity = gravity
         self.space.sleep_time_threshold = 5
 
 
 class SpaceScene(Scene):
+    GRAVITY: tuple[float, float] = 0, -9.81
+
     def __init__(self, renderer=None, **kwargs):
-        """A base scene to allow gravity to apply."""
-        self.space = Space()
+        """A basis scene for all of rigid mechanics. The gravity vector
+        can be adjusted with ``self.GRAVITY``.
+        """
+        self.space = Space(gravity=self.GRAVITY)
         super().__init__(renderer=renderer, **kwargs)
 
     def setup(self):
