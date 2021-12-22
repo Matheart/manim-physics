@@ -208,6 +208,26 @@ class MultiPendulumExample(SpaceScene):
         self.wait(10)
 ```
 ![MultiPendulumExample](./media/MultiPendulumExample_ManimCE_v0.8.0.gif)
+
+## Lensing
+This section showcases ray and lens refraction.
+Currently only shows refraction and not total internal
+reflection.
+
+```py
+class RayExampleScene(Scene):
+    def construct(self):
+        lens_style = {"fill_opacity": 0.5, "color": BLUE}
+        a = Lens(-100, 1, **lens_style).shift(LEFT)
+        a2 = Lens(100, 1, **lens_style).shift(RIGHT)
+        b = [
+            Ray(LEFT * 5 + UP * i, RIGHT, 8, [a, a2], color=RED)
+            for i in np.linspace(-2, 2, 10)
+        ]
+        self.add(a, a2, *b)
+```
+![MultiPendulumExample](media\RayExampleScene_ManimCE_v0.13.1.png)
+
 # Contribution Guidelines
 The manim-physics plugin contains objects that are classified into **several main branches**, now including rigid mechanics simulation, electromagnetism and wave. 
 
