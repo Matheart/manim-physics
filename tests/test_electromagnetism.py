@@ -15,15 +15,7 @@ class ElectricFieldExampleScene(Scene):
 
 class MagnetismExampleScene(Scene):
     def construct(self):
-        current1 = Current(LEFT * 2.5)
-        current2 = Current(RIGHT * 2.5, direction=IN)
-        field = CurrentMagneticField(current1, current2)
-        self.add(field, current1, current2)
-
-
-class BarMagnetExampleScene(Scene):
-    def construct(self):
-        bar1 = BarMagnet().rotate(PI / 2).shift(LEFT * 3.5)
-        bar2 = BarMagnet().rotate(PI / 2).shift(RIGHT * 3.5)
-        self.add(BarMagneticField(bar1, bar2))
-        self.add(bar1, bar2)
+        magnet1 = BarMagnet().shift(LEFT * 2.5)
+        magnet2 = Current(RIGHT * 2.5, direction=IN)
+        field = MagneticField(magnet1, magnet2)
+        self.add(field, magnet1, magnet2)
