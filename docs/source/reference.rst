@@ -8,6 +8,5 @@ Reference Manual
 
     ~electromagnetism
     ~pendulum
-    ~ray
     ~rigid_mechanics
     ~wave

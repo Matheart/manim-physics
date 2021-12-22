@@ -19,5 +19,7 @@ Contributors:
    :maxdepth: 2
 
    quickstart
+   examples
    reference
+   changelog
    contributing
