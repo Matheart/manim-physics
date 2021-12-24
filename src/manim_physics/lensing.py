@@ -64,8 +64,8 @@ class Lens(VMobject, metaclass=ConvertToOpenGL):
         if f > 0:
             self.set_points(
                 Intersection(
-                    Circle(r).shift(RIGHT * (r - d / 2)),
-                    Circle(r).shift(LEFT * (r - d / 2)),
+                    a := Circle(r).shift(RIGHT * (r - d / 2)),
+                    b := Circle(r).shift(LEFT * (r - d / 2)),
                 ).points
             )
         elif f < 0:
@@ -73,40 +73,19 @@ class Lens(VMobject, metaclass=ConvertToOpenGL):
                 Difference(
                     Difference(
                         Square(2 * 0.7 * r),
-                        Circle(r).shift(RIGHT * (r + d / 2)),
+                        b := Circle(r).shift(RIGHT * (r + d / 2)),
                     ),
-                    Circle(r).shift(LEFT * (r + d / 2)),
+                    a := Circle(r).shift(LEFT * (r + d / 2)),
                 )
                 .insert_n_curves(50)
                 .points
             )
+        self.add(VectorizedPoint(a.get_center()), VectorizedPoint(b.get_center()))
 
     @property
     def C(self) -> Iterable[Iterable[float]]:
-        """Returns A list of two points corresponding to the centers of curvature.
-
-        .. attention::
-            Concave lens have issues with obtaining
-            the centers of curvature. Do not rotate
-            concave lens.
-        """
-        if self.f > 0:
-            top, bottom = [self.point_from_proportion(i) for i in [0.25, 0.75]]
-            return [
-                normalize(i - self.get_center()) * (self.r - self.d / 2)
-                + self.get_center()
-                for i in perpendicular_bisector([top, bottom])
-            ]
-        else:
-            top, bottom = [
-                self.get_top(),  # not ideal, doesn't work if lens rotated
-                self.get_bottom(),
-            ]
-            return [
-                normalize(i - self.get_center()) * (self.r + self.d / 2)
-                + self.get_center()
-                for i in perpendicular_bisector([bottom, top])
-            ]
+        """Returns a tuple of two points corresponding to the centers of curvature."""
+        return self[0].points[0], self[1].points[0]
 
 
 class Ray(Line):
@@ -166,7 +145,6 @@ class Ray(Line):
         """
         # TODO: make modular(?) Clean up logic
         for lens in lenses:
-            j = [0, 1]
             intersects = intersection(lens, self)
             if len(intersects) == 0:
                 break
@@ -184,12 +162,12 @@ class Ray(Line):
                 self.points = self.points[:-nppcc]
                 self.add_line_to(intersects[0])
             self.end = intersects[0]
-            i_ang = np.angle(R3_to_complex(self.end - lens.C[j[0]])) - np.angle(
+            i_ang = np.angle(R3_to_complex(self.end - lens.C[0])) - np.angle(
                 R3_to_complex(self.start - self.end)
             )
             r_ang = snell(i_ang, lens.n)
             r_ang *= 1 if lens.f < 0 else -1
-            ref_ray = rotation_matrix(r_ang, OUT) @ (lens.C[j[0]] - self.end)
+            ref_ray = rotation_matrix(r_ang, OUT) @ (lens.C[0] - self.end)
             ref_ray *= -1 if lens.f < 0 else 1
             intersects = intersection(
                 lens, Line(self.end, self.end + ref_ray * self.init_length)
@@ -200,13 +178,13 @@ class Ray(Line):
             self.add_line_to(intersects[i])
             self.start = self.end
             self.end = intersects[i]
-            i_ang = np.angle(R3_to_complex(self.end - lens.C[j[1]])) - np.angle(
+            i_ang = np.angle(R3_to_complex(self.end - lens.C[1])) - np.angle(
                 R3_to_complex(self.start - self.end),
             )
             if np.abs(np.sin(i_ang)) < 1 / lens.n:
                 r_ang = antisnell(i_ang, lens.n)
                 r_ang *= -1 if lens.f < 0 else 1
-                ref_ray = -(rotation_matrix(r_ang, OUT) @ (lens.C[j[1]] - self.end))
+                ref_ray = -(rotation_matrix(r_ang, OUT) @ (lens.C[1] - self.end))
                 ref_ray *= -1 if lens.f < 0 else 1
                 self.add_line_to(self.end + ref_ray * self.init_length)
                 self.start = self.end
