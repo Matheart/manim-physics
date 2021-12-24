@@ -53,6 +53,7 @@ class Lens(VMobject, metaclass=ConvertToOpenGL):
             Additional parameters to be passed to :class:`~VMobject` .
         """
         super().__init__(**kwargs)
+        f *= 50 / 7 * f if f > 0 else  -50 / 7 * f # this is odd, but it works
         if f > 0:
             r = ((n - 1) ** 2 * f * d / n) ** 0.5
         else:
