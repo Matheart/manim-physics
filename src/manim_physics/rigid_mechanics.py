@@ -62,12 +62,13 @@ __all__ = [
 ]
 
 from manim.mobject.opengl_compatibility import ConvertToOpenGL
+from typing import Tuple
 import pymunk
 from manim import *
 
 
 class Space(Mobject, metaclass=ConvertToOpenGL):
-    def __init__(self, gravity: tuple[float, float] = (0, -9.81), **kwargs):
+    def __init__(self, gravity: Tuple[float, float] = (0, -9.81), **kwargs):
         """An Abstract object for gravity.
 
         Parameters
@@ -82,7 +83,7 @@ class Space(Mobject, metaclass=ConvertToOpenGL):
 
 
 class SpaceScene(Scene):
-    GRAVITY: tuple[float, float] = 0, -9.81
+    GRAVITY: Tuple[float, float] = 0, -9.81
 
     def __init__(self, renderer=None, **kwargs):
         """A basis scene for all of rigid mechanics. The gravity vector
