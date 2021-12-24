@@ -19,6 +19,7 @@ Contributors:
   - [Electromagnetism](#electromagnetism)
   - [Waves](#waves)
   - [Pendulums](#pendulums)
+  - [Lensing](#lensing)
 - [Contribution Guidelines](#contribution-guidelines)
 - [Other beautiful animations based on manim-physics](#other-beautiful-animations-based-on-manim-physics)
 - [Changelog](#changelog)
@@ -174,9 +175,6 @@ class StandingWaveExample(Scene):
 ![StandingWaveExample](/media/StandingWaveExample_ManimCE_v0.7.0.gif)
 ## Pendulums
 `MultiPendulum` and `Pendulum` both stem from the [Rigid Mechanics](#rigid-mechanics) feature.
-> **Note**:
->
-> Sometimes the updaters lag behind the intended target. This may be solved by increasing config frame rate.
 ```py
 class PendulumExample(SpaceScene):
     def construct(self):
