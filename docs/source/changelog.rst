@@ -2,6 +2,23 @@
 Changelogs
 ==========
 
+v0.2.4 
+======
+-2021.12.25
+
+New Features
+------------
+*   :class:`~SpaceScene` can now specify the gravity vector.
+*   Combined ``BarMagneticField`` with ``CurrentMagneticField`` into :class:`~MagneticField` .
+
+Improvements
+------------
+*   Hosted `official documentation <https://manim-physics.readthedocs.io/en/latest/>`_ on readthedocs. The readme might be restructured due to redundancy.
+
+Bugfixes
+--------
+*   Updated deprecated parameters in the `wave` module.
+
 v0.2.3
 ======
 -14.07.2021
