@@ -13,11 +13,13 @@ New Features
 
 Improvements
 ------------
-*   Hosted `official documentation <https://manim-physics.readthedocs.io/en/latest/>`_ on readthedocs. The readme might be restructured due to redundancy.
+*   Hosted `official documentation <https://manim-physics.readthedocs.io/en/latest/>`_ on readthedocs.
+    The readme might be restructured due to redundancy.
+*   Improved the updaters for ``pendulum`` module. Low frame rate won't show any lagging in the pendulum rods.
 
 Bugfixes
 --------
-*   Updated deprecated parameters in the `wave` module.
+*   Updated deprecated parameters in the ``wave`` module.
 
 v0.2.3
 ======

@@ -3,12 +3,6 @@ r"""Pendulums.
 :class:`~MultiPendulum` and :class:`~Pendulum` both stem from the
 :py:mod:`~rigid_mechanics` feature.
 
-.. note::
-    Sometimes the updaters lag behind the intended target. This may
-    be solved by increasing config frame rate.
-
-    ``config.frame_rate = 60``
-
 """
 
 __all__ = [
@@ -69,19 +63,15 @@ class MultiPendulum(VGroup):
         self.pins = [pivot_point]
         self.pins += bobs
         self.rods = VGroup()
-        self.rods += always_redraw(
-            lambda: Line(self.pivot_point, self.bobs[0].get_center(), **rod_style)
-        )
-        self.rods += always_redraw(
-            lambda: VGroup(
-                *(
-                    Line(
-                        self.bobs[i].get_center(),
-                        self.bobs[i + 1].get_center(),
-                        **rod_style
-                    )
-                    for i in range(len(bobs) - 1)
+        self.rods += Line(self.pivot_point, self.bobs[0].get_center(), **rod_style)
+        self.rods.add(
+            *(
+                Line(
+                    self.bobs[i].get_center(),
+                    self.bobs[i + 1].get_center(),
+                    **rod_style
                 )
+                for i in range(len(bobs) - 1)
             )
         )
 
@@ -100,15 +90,26 @@ class MultiPendulum(VGroup):
         joint = pymunk.PinJoint(a, b)
         spacescene.space.space.add(joint)
 
+    def _redraw_rods(self, mob: Line, pins, i):
+        try:
+            x, y, _ = pins[i]
+        except:
+            x, y = pins[i].body.position
+        x1, y1 = pins[i + 1].body.position
+        mob.put_start_and_end_on(
+            RIGHT * x + UP * y,
+            RIGHT * x1 + UP * y1,
+        )
+
     def start_swinging(self) -> None:
         """Start swinging."""
-        spacescene = self.bobs[0].spacescene
+        spacescene: SpaceScene = self.bobs[0].spacescene
         pins = [self.pivot_point]
         pins += self.bobs
 
         for i in range(len(pins) - 1):
-            spacescene.make_rigid_body(pins[i + 1])
             self._make_joints(pins[i + 1], pins[i], spacescene)
+            self.rods[i].add_updater(lambda mob, i=i: self._redraw_rods(mob, pins, i))
 
     def end_swinging(self) -> None:
         """Stop swinging."""

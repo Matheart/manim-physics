@@ -218,6 +218,7 @@ If you want to add more objects to the plugin, The classes of the objects should
 - Combined `BarMagneticField` with `CurrentMagneticField` into `MagneticField`.
 ### Improvements
 - Hosted [official documentation](https://manim-physics.readthedocs.io/en/latest/) on readthedocs. The readme might be restructured due to redundancy.
+- Improved the updaters for `pendulum` module. Frame rate won't showc any lagging in the pendulum rods.
 ### Bugfixes
 - Updated deprecated parameters in the `wave` module.
 ## **v0.2.3 2021.07.14**
