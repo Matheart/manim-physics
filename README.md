@@ -187,7 +187,7 @@ class PendulumExample(SpaceScene):
             p.start_swinging()
         self.wait(10)
 ```
-![MultiPendulumExample](./media/PendulumExample_ManimCE_v0.8.0.gif)
+![MultiPendulumExample](./media/PendulumExample_ManimCE_v0.13.1.gif)
 ```py
 class MultiPendulumExample(SpaceScene):
     def construct(self):
@@ -200,7 +200,7 @@ class MultiPendulumExample(SpaceScene):
         self.add(TracedPath(p.bobs[-1].get_center, stroke_color=BLUE))
         self.wait(10)
 ```
-![MultiPendulumExample](./media/MultiPendulumExample_ManimCE_v0.8.0.gif)
+![MultiPendulumExample](./media/MultiPendulumExample_ManimCE_v0.13.1.gif)
 
 ## Lensing
 This section showcases ray and lens refraction.
@@ -219,7 +219,7 @@ class RayExampleScene(Scene):
         ]
         self.add(a, a2, *b)
 ```
-![MultiPendulumExample](media\RayExampleScene_ManimCE_v0.13.1.png)
+![RayExample](./media/RayExampleScene_ManimCE_v0.13.1.png)
 
 # Contribution Guidelines
 The manim-physics plugin contains objects that are classified into **several main branches**, now including rigid mechanics simulation, electromagnetism and wave. 
