@@ -176,12 +176,12 @@ class Current(VGroup):
         else:
             raise ValueError("only IN and OUT are supported.")
         self.magnitude = magnitude
-        if np.all(direction == IN):
+        if np.all(normalize(direction * magnitude) == IN):
             label = VGroup(
                 Line(ORIGIN, UR).move_to(ORIGIN),
                 Line(ORIGIN, UL).move_to(ORIGIN),
             )
-            self.magnitude *= -1
+            # self.magnitude *= -1
         else:
             label = Dot(radius=0.2)
         super().__init__(**kwargs)
