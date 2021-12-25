@@ -119,7 +119,6 @@ class Ray(Line):
             the length are lengthened to showcase lensing.
         propagate
             A list of lenses to propagate through.
-            (Must be in order of propagation)
 
         Example
         -------
@@ -144,8 +143,8 @@ class Ray(Line):
             self.propagate(*propagate)
 
     def propagate(self, *lenses: Lens) -> None:
-        """Lenses has to be in the order
-        which the ray passes the lens.
+        """Let the ray propagate through the list
+        of lenses passed.
 
         Parameters
         ----------
@@ -153,7 +152,8 @@ class Ray(Line):
             All the lenses for the ray to propagate through
         """
         # TODO: make modular(?) Clean up logic
-        for lens in lenses:
+        sorted_lens = self._sort_lens(lenses)
+        for lens in sorted_lens:
             intersects = intersection(lens, self)
             if len(intersects) == 0:
                 continue
@@ -199,3 +199,15 @@ class Ray(Line):
                 self.start = self.end
                 self.end = self.end + ref_ray * self.init_length
             self.propagated = True
+
+    def _sort_lens(self, lenses: Iterable[Lens]) -> Iterable[Lens]:
+        dists = []
+        for lens in lenses:
+            try:
+                dists += [
+                    [np.linalg.norm(intersection(self, lens)[0] - self.start), lens]
+                ]
+            except:
+                dists += [[np.inf, lens]]
+        dists.sort(key=lambda x: x[0])
+        return np.array(dists, dtype=object)[:, 1]
