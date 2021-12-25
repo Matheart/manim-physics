@@ -56,12 +56,12 @@ class Lens(VMobject, metaclass=ConvertToOpenGL):
             Additional parameters to be passed to :class:`~VMobject` .
         """
         super().__init__(**kwargs)
-        f *= 50 / 7 * f if f > 0 else  -50 / 7 * f # this is odd, but it works
+        self.f = f
+        f *= 50 / 7 * f if f > 0 else -50 / 7 * f  # this is odd, but it works
         if f > 0:
             r = ((n - 1) ** 2 * f * d / n) ** 0.5
         else:
             r = ((n - 1) ** 2 * -f * d / n) ** 0.5
-        self.f = f
         self.d = d
         self.n = n
         self.r = r
@@ -70,7 +70,9 @@ class Lens(VMobject, metaclass=ConvertToOpenGL):
                 Intersection(
                     a := Circle(r).shift(RIGHT * (r - d / 2)),
                     b := Circle(r).shift(LEFT * (r - d / 2)),
-                ).points
+                )
+                .insert_n_curves(50)
+                .points
             )
         elif f < 0:
             self.set_points(
@@ -154,7 +156,7 @@ class Ray(Line):
         for lens in lenses:
             intersects = intersection(lens, self)
             if len(intersects) == 0:
-                break
+                continue
             if not self.propagated:
                 self.put_start_and_end_on(
                     self.start,
@@ -180,7 +182,7 @@ class Ray(Line):
                 lens, Line(self.end, self.end + ref_ray * self.init_length)
             )
             if len(intersects) == 0:
-                break
+                continue
             i = 1 if len(intersects) > 1 else 0
             self.add_line_to(intersects[i])
             self.start = self.end
