@@ -89,7 +89,10 @@ class Lens(VMobject, metaclass=ConvertToOpenGL):
     @property
     def C(self) -> Iterable[Iterable[float]]:
         """Returns a tuple of two points corresponding to the centers of curvature."""
-        return self[0].points[0], self[1].points[0]
+        if config.renderer !='opengl':
+            return self[1].points[0], self[2].points[0]  # why is this confusing
+        else:
+            return self[0].points[0], self[1].points[0]
 
 
 class Ray(Line):
@@ -124,8 +127,8 @@ class Ray(Line):
             class RayExampleScene(Scene):
                 def construct(self):
                     lens_style = {"fill_opacity": 0.5, "color": BLUE}
-                    a = Lens(-100, 1, **lens_style).shift(LEFT)
-                    a2 = Lens(100, 1, **lens_style).shift(RIGHT)
+                    a = Lens(-5, 1, **lens_style).shift(LEFT)
+                    a2 = Lens(5, 1, **lens_style).shift(RIGHT)
                     b = [
                         Ray(LEFT * 5 + UP * i, RIGHT, 8, [a, a2], color=RED)
                         for i in np.linspace(-2, 2, 10)
