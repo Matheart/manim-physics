@@ -7,6 +7,7 @@ Reference Manual
     :toctree: reference
 
     ~electromagnetism
+    ~lensing
     ~pendulum
     ~rigid_mechanics
     ~wave

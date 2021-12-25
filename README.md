@@ -19,6 +19,7 @@ Contributors:
   - [Electromagnetism](#electromagnetism)
   - [Waves](#waves)
   - [Pendulums](#pendulums)
+  - [Lensing](#lensing)
 - [Contribution Guidelines](#contribution-guidelines)
 - [Other beautiful animations based on manim-physics](#other-beautiful-animations-based-on-manim-physics)
 - [Changelog](#changelog)
@@ -174,9 +175,6 @@ class StandingWaveExample(Scene):
 ![StandingWaveExample](/media/StandingWaveExample_ManimCE_v0.7.0.gif)
 ## Pendulums
 `MultiPendulum` and `Pendulum` both stem from the [Rigid Mechanics](#rigid-mechanics) feature.
-> **Note**:
->
-> Sometimes the updaters lag behind the intended target. This may be solved by increasing config frame rate.
 ```py
 class PendulumExample(SpaceScene):
     def construct(self):
@@ -187,7 +185,7 @@ class PendulumExample(SpaceScene):
             p.start_swinging()
         self.wait(10)
 ```
-![MultiPendulumExample](./media/PendulumExample_ManimCE_v0.8.0.gif)
+![MultiPendulumExample](./media/PendulumExample_ManimCE_v0.13.1.gif)
 ```py
 class MultiPendulumExample(SpaceScene):
     def construct(self):
@@ -200,7 +198,27 @@ class MultiPendulumExample(SpaceScene):
         self.add(TracedPath(p.bobs[-1].get_center, stroke_color=BLUE))
         self.wait(10)
 ```
-![MultiPendulumExample](./media/MultiPendulumExample_ManimCE_v0.8.0.gif)
+![MultiPendulumExample](./media/MultiPendulumExample_ManimCE_v0.13.1.gif)
+
+## Lensing
+This section showcases ray and lens refraction.
+Currently only shows refraction and not total internal
+reflection.
+
+```py
+class RayExampleScene(Scene):
+    def construct(self):
+        lens_style = {"fill_opacity": 0.5, "color": BLUE}
+        a = Lens(-100, 1, **lens_style).shift(LEFT)
+        a2 = Lens(100, 1, **lens_style).shift(RIGHT)
+        b = [
+            Ray(LEFT * 5 + UP * i, RIGHT, 8, [a, a2], color=RED)
+            for i in np.linspace(-2, 2, 10)
+        ]
+        self.add(a, a2, *b)
+```
+![RayExample](./media/RayExampleScene_ManimCE_v0.13.1.png)
+
 # Contribution Guidelines
 The manim-physics plugin contains objects that are classified into **several main branches**, now including rigid mechanics simulation, electromagnetism and wave. 
 
@@ -214,10 +232,11 @@ If you want to add more objects to the plugin, The classes of the objects should
 # Changelog
 ## **v0.2.4 2021.12.25**
 ### New Features
-- `SpaceScene` can now specify the gravity vector.
-- Combined `BarMagneticField` with `CurrentMagneticField` into `MagneticField`.
-### Improvements
 - Hosted [official documentation](https://manim-physics.readthedocs.io/en/latest/) on readthedocs. The readme might be restructured due to redundancy.
+- New `lensing` module: Mobjects including `Lens` and `Ray` 
+- `SpaceScene` can now specify the gravity vector.
+### Improvements
+- Combined `BarMagneticField` with `CurrentMagneticField` into `MagneticField`.
 - Improved the updaters for `pendulum` module. Frame rate won't showc any lagging in the pendulum rods.
 ### Bugfixes
 - Updated deprecated parameters in the `wave` module.
