@@ -11,7 +11,12 @@ __all__ = [
 
 from manim import *
 from typing import Iterable, Optional
-from manim.mobject.opengl_compatibility import ConvertToOpenGL
+try:
+    # For manim < 0.15.0
+    from manim.mobject.opengl_compatibility import ConvertToOpenGL
+except ModuleNotFoundError:
+    # For manim >= 0.15.0
+    from manim.mobject.opengl.opengl_compatibility import ConvertToOpenGL
 from shapely import geometry as gm
 
 

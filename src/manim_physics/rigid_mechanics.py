@@ -61,10 +61,15 @@ __all__ = [
     "SpaceScene",
 ]
 
-from manim.mobject.opengl_compatibility import ConvertToOpenGL
 from typing import Tuple
 import pymunk
 from manim import *
+try:
+    # For manim < 0.15.0
+    from manim.mobject.opengl_compatibility import ConvertToOpenGL
+except ModuleNotFoundError:
+    # For manim >= 0.15.0
+    from manim.mobject.opengl.opengl_compatibility import ConvertToOpenGL
 
 
 class Space(Mobject, metaclass=ConvertToOpenGL):

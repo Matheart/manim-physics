@@ -6,9 +6,14 @@ __all__ = [
     "StandingWave",
 ]
 
-from typing import Iterable
+from typing import Iterable, Optional
 from manim import *
-from manim.mobject.opengl_compatibility import ConvertToOpenGL
+try:
+    # For manim < 0.15.0
+    from manim.mobject.opengl_compatibility import ConvertToOpenGL
+except ModuleNotFoundError:
+    # For manim >= 0.15.0
+    from manim.mobject.opengl.opengl_compatibility import ConvertToOpenGL
 
 
 class RadialWave(Surface, metaclass=ConvertToOpenGL):
