@@ -235,6 +235,7 @@ If you want to add more objects to the plugin, The classes of the objects should
 - Hosted [official documentation](https://manim-physics.readthedocs.io/en/latest/) on readthedocs. The readme might be restructured due to redundancy.
 - New `lensing` module: Mobjects including `Lens` and `Ray` 
 - `SpaceScene` can now specify the gravity vector.
+- Fixed `ConvertToOpenGL` import error for `manim v0.15.0`.
 ### Improvements
 - Combined `BarMagneticField` with `CurrentMagneticField` into `MagneticField`.
 - Improved the updaters for `pendulum` module. Frame rate won't showc any lagging in the pendulum rods.

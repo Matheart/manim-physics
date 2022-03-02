@@ -10,6 +10,7 @@ New Features
 ------------
 *   :class:`~SpaceScene` can now specify the gravity vector.
 *   Combined ``BarMagneticField`` with ``CurrentMagneticField`` into :class:`~MagneticField` .
+*   Fixed ``ConvertToOpenGL`` import error for ``manim v0.15.0``.
 
 Improvements
 ------------
