@@ -64,6 +64,7 @@ __all__ = [
 from typing import Tuple
 import pymunk
 from manim import *
+
 try:
     # For manim < 0.15.0
     from manim.mobject.opengl_compatibility import ConvertToOpenGL
