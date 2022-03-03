@@ -164,10 +164,11 @@ class Ray(Line):
             intersects = intersection(lens, self)
             if len(intersects) == 0:
                 continue
+            intersects = self.sort_intersections(intersects)
             if not self.propagated:
                 self.put_start_and_end_on(
                     self.start,
-                    intersects[0],
+                    intersects[1],
                 )
             else:
                 nppcc = (
@@ -176,35 +177,34 @@ class Ray(Line):
                     else self.n_points_per_curve
                 )
                 self.points = self.points[:-nppcc]
-                self.add_line_to(intersects[0])
-            self.end = intersects[0]
-            i_ang = np.angle(R3_to_complex(self.end - lens.C[0])) - np.angle(
-                R3_to_complex(self.start - self.end)
-            )
+                self.add_line_to(intersects[1])
+            self.end = intersects[1]
+            i_ang = angle_of_vector(self.end - lens.C[0])
+            i_ang -= angle_of_vector(self.start - self.end)
             r_ang = snell(i_ang, lens.n)
-            r_ang *= 1 if lens.f < 0 else -1
-            ref_ray = rotation_matrix(r_ang, OUT) @ (lens.C[0] - self.end)
-            ref_ray *= -1 if lens.f < 0 else 1
+            r_ang *= -1 if lens.f > 0 else 1
+            ref_ray = rotate_vector(lens.C[0] - self.end, r_ang)
             intersects = intersection(
-                lens, Line(self.end, self.end + ref_ray * self.init_length)
+                lens,
+                Line(
+                    self.end - ref_ray * self.init_length,
+                    self.end + ref_ray * self.init_length,
+                ),
             )
-            if len(intersects) == 0:
-                continue
-            i = 1 if len(intersects) > 1 else 0
-            self.add_line_to(intersects[i])
+            intersects = self.sort_intersections(intersects)
+            self.add_line_to(intersects[1])
             self.start = self.end
-            self.end = intersects[i]
-            i_ang = np.angle(R3_to_complex(self.end - lens.C[1])) - np.angle(
-                R3_to_complex(self.start - self.end),
-            )
+            self.end = intersects[1]
+            i_ang = angle_of_vector(self.end - lens.C[1])
+            i_ang -= angle_of_vector(self.start - self.end)
             if np.abs(np.sin(i_ang)) < 1 / lens.n:
                 r_ang = antisnell(i_ang, lens.n)
                 r_ang *= -1 if lens.f < 0 else 1
-                ref_ray = -(rotation_matrix(r_ang, OUT) @ (lens.C[1] - self.end))
-                ref_ray *= -1 if lens.f < 0 else 1
+                ref_ray = rotate_vector(lens.C[1] - self.end, r_ang)
+                ref_ray *= -1 if lens.f > 0 else 1
                 self.add_line_to(self.end + ref_ray * self.init_length)
                 self.start = self.end
-                self.end = self.end + ref_ray * self.init_length
+                self.end = self.get_end()
             self.propagated = True
 
     def _sort_lens(self, lenses: Iterable[Lens]) -> Iterable[Lens]:
@@ -218,3 +218,12 @@ class Ray(Line):
                 dists += [[np.inf, lens]]
         dists.sort(key=lambda x: x[0])
         return np.array(dists, dtype=object)[:, 1]
+
+    def _sort_intersections(
+        self, intersections: Iterable[Iterable[float]]
+    ) -> Iterable[Iterable[float]]:
+        result = []
+        for inters in intersections:
+            result.append([np.linalg.norm(inters - self.end), inters])
+        result.sort(key=lambda x: x[0])
+        return np.array(result, dtype=object)[:, 1]
