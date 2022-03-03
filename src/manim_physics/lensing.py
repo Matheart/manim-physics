@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """A lensing module.
 
 Currently only shows refraction in lenses and not
@@ -10,7 +12,8 @@ __all__ = [
 ]
 
 from manim import *
-from typing import Iterable, Optional
+from typing import Iterable, Tuple
+
 try:
     # For manim < 0.15.0
     from manim.mobject.opengl_compatibility import ConvertToOpenGL
@@ -94,7 +97,7 @@ class Lens(VMobject, metaclass=ConvertToOpenGL):
         self.add(VectorizedPoint(a.get_center()), VectorizedPoint(b.get_center()))
 
     @property
-    def C(self) -> Iterable[Iterable[float]]:
+    def C(self) -> Tuple[Iterable[float]]:
         """Returns a tuple of two points corresponding to the centers of curvature."""
         if config.renderer != "opengl":
             return self[1].points[0], self[2].points[0]  # why is this confusing
@@ -108,7 +111,7 @@ class Ray(Line):
         start: Iterable[float],
         direction: Iterable[float],
         init_length: float = 5,
-        propagate: Optional[Iterable[Lens]] = None,
+        propagate: Iterable[Lens] | None = None,
         **kwargs,
     ) -> None:
         """A light ray.
