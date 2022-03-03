@@ -164,7 +164,7 @@ class Ray(Line):
             intersects = intersection(lens, self)
             if len(intersects) == 0:
                 continue
-            intersects = self.sort_intersections(intersects)
+            intersects = self._sort_intersections(intersects)
             if not self.propagated:
                 self.put_start_and_end_on(
                     self.start,
@@ -191,7 +191,7 @@ class Ray(Line):
                     self.end + ref_ray * self.init_length,
                 ),
             )
-            intersects = self.sort_intersections(intersects)
+            intersects = self._sort_intersections(intersects)
             self.add_line_to(intersects[1])
             self.start = self.end
             self.end = intersects[1]
