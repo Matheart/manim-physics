@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "manim-physics"
-version = "0.2.3"
+version = "0.2.4"
 description = "Support physics simulation"
 authors = ["Matheart <waautomationwong@gmail.com>"]
 repository = "https://github.com/Matheart/manim-physics"
 readme="README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8,<3.11"
 manim = ">=0.6.0"
 pymunk = "^6.0.0"
 Shapely = "^1.8.0"
