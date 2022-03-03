@@ -87,9 +87,9 @@ class Lens(VMobject, metaclass=ConvertToOpenGL):
                 Difference(
                     Difference(
                         Square(2 * 0.7 * r),
-                        b := Circle(r).shift(RIGHT * (r + d / 2)),
+                        a := Circle(r).shift(LEFT * (r + d / 2)),
                     ),
-                    a := Circle(r).shift(LEFT * (r + d / 2)),
+                    b := Circle(r).shift(RIGHT * (r + d / 2)),
                 )
                 .insert_n_curves(50)
                 .points
@@ -99,10 +99,9 @@ class Lens(VMobject, metaclass=ConvertToOpenGL):
     @property
     def C(self) -> Tuple[Iterable[float]]:
         """Returns a tuple of two points corresponding to the centers of curvature."""
-        if config.renderer != "opengl":
-            return self[1].points[0], self[2].points[0]  # why is this confusing
-        else:
-            return self[0].points[0], self[1].points[0]
+        i = 0
+        i += 1 if config.renderer != "opengl" else 0
+        return self[i].points[0], self[i + 1].points[0]  # why is this confusing
 
 
 class Ray(Line):
