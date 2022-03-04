@@ -58,7 +58,7 @@ class Charge(VGroup):
             layer_num = 80
             color_list = color_gradient(layer_colors, layer_num)
             opacity_func = lambda t: 1500 * (1 - abs(t - 0.009) ** 0.0001)
-            rate_func = lambda t: t ** 2
+            rate_func = lambda t: t**2
 
             for i in range(layer_num):
                 self.add(
@@ -116,7 +116,7 @@ class ElectricField(ArrowVectorField):
             p0, mag = charge.get_center(), charge.magnitude
             pos.append(p0)
             x, y, z = p - p0
-            dist = (x ** 2 + y ** 2) ** 1.5
+            dist = (x**2 + y**2) ** 1.5
             if any((p - p0) ** 2 > 0.05):
                 direction += mag * np.array([x / dist, y / dist, 0])
             else:
@@ -138,7 +138,7 @@ class ElectricField(ArrowVectorField):
             p0, mag = other_charge.get_center(), other_charge.magnitude
             x, y, z = p - p0
             dist = np.linalg.norm(p - p0) ** 3
-            if (x ** 2) > 0.01 or (y ** 2) > 0.01:
+            if (x**2) > 0.01 or (y**2) > 0.01:
                 direction += mag * np.array([x / dist, y / dist, 0])
             else:
                 direction += np.zeros(3)
@@ -254,7 +254,7 @@ def _biot_savart_law(p: np.ndarray, p0: Current) -> np.ndarray:
     pos = p - p0.get_center()
     dist = np.linalg.norm(pos)
     if np.any(dist > 0.1):
-        return np.cross(p0.direction, pos) * p0.magnitude / dist ** 3
+        return np.cross(p0.direction, pos) * p0.magnitude / dist**3
     else:
         return np.zeros(3)
 
