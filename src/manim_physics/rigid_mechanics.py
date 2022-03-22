@@ -132,26 +132,22 @@ class SpaceScene(Scene):
             interacting with other rigid and static objects.
         """
         for mob in mobs:
-            if isinstance(mob, VGroup):
-                return self.make_rigid_body(*mob)
             if not hasattr(mob, "body"):
-                parts = mob.family_members_with_points()
-                for p in parts:
-                    self.add(p)
-                    p.body = pymunk.Body()
-                    p.body.position = p.get_x(), p.get_y()
-                    get_angle(p)
-                    if not hasattr(p, "angle"):
-                        p.angle = 0
-                    p.body.angle = p.angle
-                    get_shape(p)
-                    p.shape.density = density
-                    p.shape.elasticity = elasticity
-                    p.shape.friction = friction
-                    p.spacescene = self
+                self.add(mob)
+                mob.body = pymunk.Body()
+                mob.body.position = mob.get_x(), mob.get_y()
+                get_angle(mob)
+                if not hasattr(mob, "angle"):
+                    mob.angle = 0
+                mob.body.angle = mob.angle
+                get_shape(mob)
+                mob.shape.density = density
+                mob.shape.elasticity = elasticity
+                mob.shape.friction = friction
+                mob.spacescene = self
 
-                    self.add_body(p)
-                    p.add_updater(_simulate)
+                self.add_body(mob)
+                mob.add_updater(_simulate)
 
             else:
                 if mob.body.is_sleeping:
