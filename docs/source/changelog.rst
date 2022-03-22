@@ -2,6 +2,14 @@
 Changelogs
 ==========
 
+
+v0.2.5
+======
+
+Bugfixes
+--------
+*   ``VGroup``s can be whole rigid bodies. Support for ``SVGMobject``s
+
 v0.2.4 
 ======
 -2021.12.25

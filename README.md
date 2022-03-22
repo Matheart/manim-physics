@@ -23,6 +23,7 @@ Contributors:
 - [Contribution Guidelines](#contribution-guidelines)
 - [Other beautiful animations based on manim-physics](#other-beautiful-animations-based-on-manim-physics)
 - [Changelog](#changelog)
+  - [**v0.2.5**](#)
   - [**v0.2.4**](#v024-20211225)
   - [**v0.2.3**](#v023-20210714)
   - [**v0.2.2**](#v022-20210706)
@@ -230,6 +231,9 @@ If you want to add more objects to the plugin, The classes of the objects should
 ![Falling formulas](/media/TexFalling_ManimCE_v0.7.0.gif)
 
 # Changelog
+## **v0.2.5**
+### Bugfixes
+- `VGroup`s can be whole rigid bodies. Support for `SVGMobject`s
 ## **v0.2.4 2021.12.25**
 ### New Features
 - Hosted [official documentation](https://manim-physics.readthedocs.io/en/latest/) on readthedocs. The readme might be restructured due to redundancy.
