@@ -126,7 +126,7 @@ class ElectricField(ArrowVectorField):
                 direction = np.zeros(3)
         return direction
 
-    def get_force_on_charge(self, charge: Charge) -> Vector:
+    def get_force_on_charge(self, charge: Charge, **kwargs) -> Vector:
         """Returns a vector corresponding to the force
         of the electric field on the charge.
         """
@@ -146,7 +146,7 @@ class ElectricField(ArrowVectorField):
         vec_start = (
             Vector(direction / length * charge.radius).shift(charge.point).get_end()
         )
-        return Vector(direction).shift(vec_start)
+        return Vector(direction, **kwargs).shift(vec_start)
 
 
 class Current(VGroup):
