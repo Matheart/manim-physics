@@ -8,12 +8,14 @@ readme="README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
-manim = ">=0.6.0"
+manim = "^0.17.3"
 pymunk = "^6.0.0"
 Shapely = "^1.8.0"
 
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.3.1"
+black = "^23.3.0"
+pre-commit = "^3.3.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

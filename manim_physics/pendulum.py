@@ -8,6 +8,7 @@ r"""Pendulums.
 __all__ = [
     "Pendulum",
     "MultiPendulum",
+    "SpaceScene",
 ]
 
 from typing import Iterable

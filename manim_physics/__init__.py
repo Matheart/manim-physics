@@ -1,6 +1,9 @@
 __version__ = "0.2.3"
 
-from .electromagnetism import *
+from manim import *
+
+from .electromagnetism.electrostatics import *
+from .electromagnetism.magnetostatics import *
 from .lensing import *
 from .pendulum import *
 from .rigid_mechanics import *

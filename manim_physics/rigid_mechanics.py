@@ -62,8 +62,24 @@ __all__ = [
 ]
 
 from typing import Tuple
+
+from manim import (
+    Circle,
+    Group,
+    Line,
+    Mobject,
+    Polygon,
+    Polygram,
+    RIGHT,
+    Rectangle,
+    Scene,
+    UP,
+    VGroup,
+    VMobject,
+    angle_between_vectors,
+)
+import numpy as np
 import pymunk
-from manim import *
 
 try:
     # For manim < 0.15.0
