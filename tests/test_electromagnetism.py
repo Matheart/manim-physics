@@ -3,7 +3,8 @@ __module_test__ = "electromagnetism"
 from manim import *
 from manim.utils.testing.frames_comparison import frames_comparison
 
-from manim_physics.electromagnetism import *
+from manim_physics.electromagnetism.electrostatics import *
+from manim_physics.electromagnetism.magnetostatics import *
 
 
 @frames_comparison
@@ -18,7 +19,6 @@ def test_electric_field(scene):
 
 @frames_comparison
 def test_magnetic_field(scene):
-    magnet1 = BarMagnet().shift(LEFT * 2.5)
-    magnet2 = Current(RIGHT * 2.5, direction=IN)
-    field = MagneticField(magnet1, magnet2)
-    scene.add(field, magnet1, magnet2)
+    wire = Wire(Circle(2).rotate(PI / 2, UP))
+    field = MagneticField(wire)
+    scene.add(field, wire)

@@ -5,6 +5,8 @@ __all__ = [
     "ElectricField",
 ]
 
+from typing import Iterable
+from manim import normalize
 from manim.constants import ORIGIN, TAU, UP
 from manim.mobject.geometry.arc import Arc, Dot
 from manim.mobject.geometry.line import Vector
@@ -109,43 +111,24 @@ class ElectricField(ArrowVectorField):
                     self.add(field)
         """
         self.charges = charges
-        super().__init__(lambda p: self._field_func(p), **kwargs)
+        positions = []
+        magnitudes = []
+        for charge in charges:
+            positions.append(charge.get_center())
+            magnitudes.append(charge.magnitude)
+        super().__init__(lambda p: self._field_func(p, positions, magnitudes), **kwargs)
 
-    def _field_func(self, p: np.ndarray) -> np.ndarray:
-        direction = np.zeros(3)
-        pos = []
-        for charge in self.charges:
-            p0, mag = charge.get_center(), charge.magnitude
-            pos.append(p0)
-            x, y, z = p - p0
-            dist = (x**2 + y**2) ** 1.5
-            if any((p - p0) ** 2 > 0.05):
-                direction += mag * np.array([x / dist, y / dist, 0])
-            else:
-                direction += np.zeros(3)
-        for p0 in pos:
-            if all((p - p0) ** 2 <= 0.05):
-                direction = np.zeros(3)
-        return direction
-
-    def get_force_on_charge(self, charge: Charge, **kwargs) -> Vector:
-        """Returns a vector corresponding to the force
-        of the electric field on the charge.
-        """
-        p = charge.get_center()
-        direction = np.zeros(3)
-        for other_charge in self.charges:
-            if other_charge == charge:
-                continue
-            p0, mag = other_charge.get_center(), other_charge.magnitude
-            x, y, z = p - p0
-            dist = np.linalg.norm(p - p0) ** 3
-            if (x**2) > 0.01 or (y**2) > 0.01:
-                direction += mag * np.array([x / dist, y / dist, 0])
-            else:
-                direction += np.zeros(3)
-        length = (direction[0] ** 2 + direction[1] ** 2) ** 0.5
-        vec_start = (
-            Vector(direction / length * charge.radius).shift(charge.point).get_end()
-        )
-        return Vector(direction, **kwargs).shift(vec_start)
+    def _field_func(
+        self,
+        p: np.ndarray,
+        positions: Iterable[np.ndarray],
+        magnitudes: Iterable[float],
+    ) -> np.ndarray:
+        field_vect = np.zeros(3)
+        for p0, mag in zip(positions, magnitudes):
+            r = p - p0
+            dist = np.linalg.norm(r)
+            if dist < 0.1:
+                return np.zeros(3)
+            field_vect += mag / dist**2 * normalize(r)
+        return field_vect
