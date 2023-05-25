@@ -1,8 +1,6 @@
 """Magnetostatics module"""
 
-__all__ = ["Wire", "MagneticField"]
-
-
+from __future__ import annotations
 import itertools as it
 from typing import Iterable, Tuple
 
@@ -10,6 +8,9 @@ from manim.mobject.opengl.opengl_compatibility import ConvertToOpenGL
 from manim.mobject.types.vectorized_mobject import VMobject
 from manim.mobject.vector_field import ArrowVectorField
 import numpy as np
+
+
+__all__ = ["Wire", "MagneticField"]
 
 
 class Wire(VMobject, metaclass=ConvertToOpenGL):

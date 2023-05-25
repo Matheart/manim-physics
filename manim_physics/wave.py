@@ -1,13 +1,16 @@
 """3D and 2D Waves module."""
 
+from __future__ import annotations
+from typing import Iterable, Optional
+
+from manim import *
+
 __all__ = [
     "LinearWave",
     "RadialWave",
     "StandingWave",
 ]
 
-from typing import Iterable, Optional
-from manim import *
 
 try:
     # For manim < 0.15.0
@@ -26,7 +29,7 @@ class RadialWave(Surface, metaclass=ConvertToOpenGL):
         amplitude: float = 0.1,
         x_range: Iterable[float] = [-5, 5],
         y_range: Iterable[float] = [-5, 5],
-        **kwargs
+        **kwargs,
     ) -> None:
         """A 3D Surface with waves moving radially.
 
@@ -117,7 +120,7 @@ class LinearWave(RadialWave):
         amplitude: float = 0.1,
         x_range: Iterable[float] = [-5, 5],
         y_range: Iterable[float] = [-5, 5],
-        **kwargs
+        **kwargs,
     ) -> None:
         """A 3D Surface with waves in one direction.
 
@@ -172,7 +175,7 @@ class StandingWave(ParametricFunction):
         length: float = 4,
         period: float = 1,
         amplitude: float = 1,
-        **kwargs
+        **kwargs,
     ) -> None:
         """A 2D standing wave.
 

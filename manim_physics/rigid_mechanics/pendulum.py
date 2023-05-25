@@ -5,12 +5,7 @@ r"""Pendulums.
 
 """
 
-__all__ = [
-    "Pendulum",
-    "MultiPendulum",
-    "SpaceScene",
-]
-
+from __future__ import annotations
 from typing import Iterable
 
 from manim.constants import DOWN, RIGHT, UP
@@ -24,6 +19,12 @@ import pymunk
 
 from .rigid_mechanics import SpaceScene
 
+__all__ = [
+    "Pendulum",
+    "MultiPendulum",
+    "SpaceScene",
+]
+
 
 class MultiPendulum(VGroup):
     def __init__(
@@ -36,7 +37,7 @@ class MultiPendulum(VGroup):
             "color": ORANGE,
             "fill_opacity": 1,
         },
-        **kwargs
+        **kwargs,
     ) -> None:
         """A multipendulum.
 
@@ -80,7 +81,7 @@ class MultiPendulum(VGroup):
                 Line(
                     self.bobs[i].get_center(),
                     self.bobs[i + 1].get_center(),
-                    **rod_style
+                    **rod_style,
                 )
                 for i in range(len(bobs) - 1)
             )
@@ -140,7 +141,7 @@ class Pendulum(MultiPendulum):
             "color": ORANGE,
             "fill_opacity": 1,
         },
-        **kwargs
+        **kwargs,
     ):
         """A pendulum.
 
@@ -184,5 +185,5 @@ class Pendulum(MultiPendulum):
             pivot_point=self.pivot_point,
             rod_style=rod_style,
             bob_style=bob_style,
-            **kwargs
+            **kwargs,
         )

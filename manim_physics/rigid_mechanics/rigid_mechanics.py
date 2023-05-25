@@ -52,15 +52,7 @@ Examples
                 # during wait time, the circle and rect would move according to the simulate updater
 """
 
-__all__ = [
-    "Space",
-    "_step",
-    "_simulate",
-    "get_shape",
-    "get_angle",
-    "SpaceScene",
-]
-
+from __future__ import annotations
 from typing import Tuple
 
 from manim.constants import RIGHT, UP
@@ -73,6 +65,16 @@ from manim.scene.scene import Scene
 from manim.utils.space_ops import angle_between_vectors
 import numpy as np
 import pymunk
+
+__all__ = [
+    "Space",
+    "_step",
+    "_simulate",
+    "get_shape",
+    "get_angle",
+    "SpaceScene",
+]
+
 
 try:
     # For manim < 0.15.0

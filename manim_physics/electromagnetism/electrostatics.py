@@ -1,10 +1,6 @@
 """Electrostatics module"""
 
-__all__ = [
-    "Charge",
-    "ElectricField",
-]
-
+from __future__ import annotations
 from typing import Iterable
 
 from manim import normalize
@@ -15,6 +11,12 @@ from manim.mobject.types.vectorized_mobject import VGroup
 from manim.mobject.vector_field import ArrowVectorField
 from manim.utils.color import BLUE, RED, RED_A, RED_D, color_gradient
 import numpy as np
+
+
+__all__ = [
+    "Charge",
+    "ElectricField",
+]
 
 
 class Charge(VGroup):
