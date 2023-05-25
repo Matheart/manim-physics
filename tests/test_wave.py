@@ -6,29 +6,23 @@ from manim.utils.testing.frames_comparison import frames_comparison
 from manim_physics.wave import *
 
 
-@frames_comparison(base_scene=ThreeDScene)
+@frames_comparison()
 def test_linearwave(scene):
-    scene.set_camera_orientation(60 * DEGREES, -45 * DEGREES)
     wave = LinearWave()
+    wave.set_time(2)
     scene.add(wave)
-    wave.start_wave()
-    scene.wait()
-    wave.stop_wave()
 
 
-@frames_comparison(base_scene=ThreeDScene)
+@frames_comparison()
 def test_radialwave(scene):
-    scene.set_camera_orientation(60 * DEGREES, -45 * DEGREES)
     wave = RadialWave(
         LEFT * 2 + DOWN * 5,  # Two source of waves
         RIGHT * 2 + DOWN * 5,
         checkerboard_colors=[BLUE_D],
         stroke_width=0,
     )
+    wave.set_time(2)
     scene.add(wave)
-    wave.start_wave()
-    scene.wait()
-    wave.stop_wave()
 
 
 @frames_comparison
