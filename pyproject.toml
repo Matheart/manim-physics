@@ -7,7 +7,7 @@ repository = "https://github.com/Matheart/manim-physics"
 readme="README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.11"
+python = ">=3.8,<3.12"
 manim = "^0.17.3"
 pymunk = "^6.0.0"
 Shapely = "^1.8.0"
