@@ -3,7 +3,7 @@ __module_test__ = "rigid_mechanics"
 from manim import *
 from manim.utils.testing.frames_comparison import frames_comparison
 
-from manim_physics.rigid_mechanics import *
+from manim_physics.rigid_mechanics.rigid_mechanics import *
 
 
 @frames_comparison(base_scene=SpaceScene)
@@ -30,4 +30,4 @@ def test_rigid_mechanics(scene):
     )
     scene.make_rigid_body(rect, circle)
     scene.make_static_body(walls)
-    scene.wait(5)
+    scene.wait()
