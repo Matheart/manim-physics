@@ -1,5 +1,5 @@
 Electromagnetism
-========
+================
 
 .. currentmodule:: manim_physics
 
