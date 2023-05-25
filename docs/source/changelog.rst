@@ -1,78 +1,95 @@
+=========
+Changelog
+=========
+
+**v0.3.0**
 ==========
-Changelogs
+Breaking Changes
+----------------
+- Huge library refactor.
+
+  - :class:`~.MagneticField` now takes a :class:`~.Wire` parameter. This allows
+    for a 3D field.
+  - Optimized field functions for both :class:`~.ElectricField` and
+    :class:`~.MagneticField`.
+
+**v0.2.5**
 ==========
-
-
-v0.2.5
-======
-
 Bugfixes
 --------
-*   ``VGroup``s can be whole rigid bodies. Support for ``SVGMobject``s
+- ``VGroup`` s can be whole rigid bodies. Support for ``SVGMobject`` s
 
-v0.2.4 
-======
--2021.12.25
+**v0.2.4**
+==========
+2021.12.25
 
 New Features
 ------------
-*   :class:`~SpaceScene` can now specify the gravity vector.
-*   Combined ``BarMagneticField`` with ``CurrentMagneticField`` into :class:`~MagneticField` .
-*   Fixed ``ConvertToOpenGL`` import error for ``manim v0.15.0``.
+- Hosted `official documentation
+  <https://manim-physics.readthedocs.io/en/latest/>`_ on
+  readthedocs. The readme might be restructured due to redundancy.
+- New ``lensing`` module: Mobjects including ``Lens`` and ``Ray`` 
+- ``SpaceScene`` can now specify the gravity vector.
+- Fixed ``ConvertToOpenGL`` import error for ``manim v0.15.0``.
+
+Improvements
+-------------
+- Combined ``BarMagneticField`` with ``CurrentMagneticField`` into
+  ``MagneticField``.
+- Improved the updaters for ``pendulum`` module. Frame rate won't show any
+  lagging in the pendulum rods.
+
+Bugfixes
+---------
+- Updated deprecated parameters in the ``wave`` module.
+
+**v0.2.3**
+==========
+2021.07.14
+
+Bugfixes
+--------
+- Fix the small arrow bug in ``ElectricField``
+
+**v0.2.2**
+==========
+2021.07.06
+
+New objects
+-----------
+- **Rigid Mechanics**: Pendulum
+
+Bugfixes
+--------
+- Fix the ``__all__`` bug, now ``rigid_mechanics.py`` can run normally.
 
 Improvements
 ------------
-*   Hosted `official documentation <https://manim-physics.readthedocs.io/en/latest/>`_ on readthedocs.
-    The readme might be restructured due to redundancy.
-*   Improved the updaters for ``pendulum`` module. Low frame rate won't show any lagging in the pendulum rods.
+- Rewrite README.md to improve its readability
 
-Bugfixes
---------
-*   Updated deprecated parameters in the ``wave`` module.
+**v0.2.1**
+==========
+2021.07.03
 
-v0.2.3
-======
--14.07.2021
-
-Bugfixes
---------
-*   Fix the small arrow bug in :class:`~ElectricField`
-
-v0.2.2
-======
--06.07.2021
-
-New Objects
+New objects
 -----------
-*   Rigid Mechanics: Pendulum
+- **Electromagnetism**: Charge, ElectricField, Current, CurrentMagneticField,
+  BarMagnet, and BarMagnetField
+- **Wave**: LinearWave, RadialWave, StandingWave
 
 Bugfixes
 --------
-*   Fix the ``__all__`` bug, now ``rigid_mechanics.py`` can run normally.
+- Fix typo
 
 Improvements
 ------------
-*   Rewrite ``README.md`` to improve its readability
+- Simplify rigid-mechanics
 
-v0.2.1
-======
--03.07.2021
-
-New Objects
------------
-*   Electromagnetism: Charge, ElectricField, Current, CurrentMagneticField,
-    BarMagnet, and BarMagnetField
-*   Wave: LinearWave, RadialWave, StandingWave
-
-Bugfixes
---------
-*   Fix typo
-
-v0.2.0
-======
--01.07.2021
+**v0.2.0**
+==========
+2021.07.01
 
 Breaking Changes
 ----------------
-*   Objects in the manim-physics plugin are classified into several main
-    branches including rigid mechanics simulation, electromagnetism and wave.
+- Objects in the manim-physics plugin are classified into several **main
+  branches** including rigid mechanics simulation, electromagnetism and wave.

@@ -1,13 +1,11 @@
-Reference Manual
-================
+Reference
+---------
 
-.. currentmodule:: src.manim_physics
 
-.. autosummary::
-    :toctree: reference
+.. toctree::
+   :maxdepth: 2
 
-    ~electromagnetism
-    ~lensing
-    ~pendulum
-    ~rigid_mechanics
-    ~wave
+   reference_index/electromagnetism
+   reference_index/optics
+   reference_index/rigid_mechanics
+   reference_index/wave

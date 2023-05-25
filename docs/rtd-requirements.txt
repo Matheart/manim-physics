@@ -1,5 +1,2 @@
-sphinx
-manim-physics
-furo
-recommonmark
-sphinx-copybutton
+jupyterlab
+sphinxcontrib-programoutput
