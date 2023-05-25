@@ -63,21 +63,14 @@ __all__ = [
 
 from typing import Tuple
 
-from manim import (
-    Circle,
-    Group,
-    Line,
-    Mobject,
-    Polygon,
-    Polygram,
-    RIGHT,
-    Rectangle,
-    Scene,
-    UP,
-    VGroup,
-    VMobject,
-    angle_between_vectors,
-)
+from manim.constants import RIGHT, UP
+from manim.mobject.geometry.arc import Circle
+from manim.mobject.geometry.line import Line
+from manim.mobject.geometry.polygram import Polygon, Polygram, Rectangle
+from manim.mobject.mobject import Group, Mobject
+from manim.mobject.types.vectorized_mobject import VGroup, VMobject
+from manim.scene.scene import Scene
+from manim.utils.space_ops import angle_between_vectors
 import numpy as np
 import pymunk
 
@@ -228,7 +221,7 @@ def get_shape(mob: VMobject) -> None:
         height = np.linalg.norm(mob.get_vertices()[2] - mob.get_vertices()[1])
         mob.shape = pymunk.Poly.create_box(mob.body, (width, height))
     elif issubclass(type(mob), Polygram):
-        vertices = [(a, b) for a, b, c in mob.get_vertices() - mob.get_center()]
+        vertices = [(a, b) for a, b, _ in mob.get_vertices() - mob.get_center()]
         mob.shape = pymunk.Poly(mob.body, vertices)
     else:
         mob.shape = pymunk.Poly.create_box(mob.body, (mob.width, mob.height))

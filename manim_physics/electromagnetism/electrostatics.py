@@ -6,10 +6,10 @@ __all__ = [
 ]
 
 from typing import Iterable
+
 from manim import normalize
-from manim.constants import ORIGIN, TAU, UP
+from manim.constants import ORIGIN, TAU
 from manim.mobject.geometry.arc import Arc, Dot
-from manim.mobject.geometry.line import Vector
 from manim.mobject.geometry.polygram import Rectangle
 from manim.mobject.types.vectorized_mobject import VGroup
 from manim.mobject.vector_field import ArrowVectorField
@@ -25,7 +25,7 @@ class Charge(VGroup):
         add_glow: bool = True,
         **kwargs,
     ) -> None:
-        """An electrostatic charge object. Commonly used for :class:`~ElectricField`.
+        """An electrostatic charge object to produce an :class:`~ElectricField`.
 
         Parameters
         ----------

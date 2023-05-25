@@ -12,9 +12,17 @@ __all__ = [
 ]
 
 from typing import Iterable
+
+from manim.constants import DOWN, RIGHT, UP
+from manim.mobject.geometry.arc import Circle
+from manim.mobject.geometry.line import Line
+from manim.mobject.mobject import Mobject
+from manim.mobject.types.vectorized_mobject import VGroup
+from manim.utils.color import ORANGE
+import numpy as np
 import pymunk
-from manim import *
-from .rigid_mechanics import *
+
+from .rigid_mechanics import SpaceScene
 
 
 class MultiPendulum(VGroup):
@@ -48,13 +56,15 @@ class MultiPendulum(VGroup):
         Examples
         --------
         .. manim:: MultiPendulumExample
+            :quality: low
 
             from manim_physics import *
+
             class MultiPendulumExample(SpaceScene):
                 def construct(self):
                     p = MultiPendulum(RIGHT, LEFT)
                     self.add(p)
-                    self.make_rigid_body(p.bobs)
+                    self.make_rigid_body(*p.bobs)
                     p.start_swinging()
                     self.add(TracedPath(p.bobs[-1].get_center, stroke_color=BLUE))
                     self.wait(10)
@@ -150,6 +160,7 @@ class Pendulum(MultiPendulum):
         Examples
         --------
         .. manim:: PendulumExample
+            :quality: low
 
             from manim_physics import *
             class PendulumExample(SpaceScene):
@@ -157,7 +168,7 @@ class Pendulum(MultiPendulum):
                     pends = VGroup(*[Pendulum(i) for i in np.linspace(1, 5, 7)])
                     self.add(pends)
                     for p in pends:
-                        self.make_rigid_body(p.bobs)
+                        self.make_rigid_body(*p.bobs)
                         p.start_swinging()
                     self.wait(10)
         """
