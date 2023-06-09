@@ -209,7 +209,10 @@ def _simulate(b):
 
 def get_shape(mob: VMobject) -> None:
     """Obtains the shape of the body from the mobject"""
-    if isinstance(mob, Circle):
+    if isinstance(mob, Ellipse):
+        vertices = [(a, b) for a, b, _ in mob.get_start_anchors() - mob.get_center()]
+        mob.shape = pymunk.Poly(mob.body, vertices)
+    elif isinstance(mob, Circle):
         mob.shape = pymunk.Circle(body=mob.body, radius=mob.radius)
     elif isinstance(mob, Line):
         mob.shape = pymunk.Segment(
