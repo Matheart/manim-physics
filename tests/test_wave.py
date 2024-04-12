@@ -9,7 +9,7 @@ from manim_physics.wave import *
 @frames_comparison()
 def test_linearwave(scene):
     wave = LinearWave()
-    wave.set_time(2)
+    wave.set(time=2)
     scene.add(wave)
 
 
@@ -21,7 +21,7 @@ def test_radialwave(scene):
         checkerboard_colors=[BLUE_D],
         stroke_width=0,
     )
-    wave.set_time(2)
+    wave.set(time=2)
     scene.add(wave)
 
 
@@ -37,3 +37,4 @@ def test_standingwave(scene):
     for wave in waves:
         wave.start_wave()
     scene.wait()
+
