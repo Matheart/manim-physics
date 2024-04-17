@@ -2,6 +2,14 @@
 Changelog
 =========
 
+**v0.4.0**
+==========
+Breaking Changes
+----------------
+- Supported Python versions include 3.9 to 3.12
+- Updated manim version
+- Updated dependency versions
+
 **v0.3.0**
 ==========
 Breaking Changes

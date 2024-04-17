@@ -9,8 +9,6 @@ from __future__ import annotations
 import os
 import sys
 
-import manim_physics
-
 # -- Path setup --------------------------------------------------------------
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -23,7 +21,7 @@ sys.path.insert(0, os.path.abspath("."))
 # -- Project information -----------------------------------------------------
 
 project = "Manim Physics"
-copyright = "2020-2022, The Manim Physics Dev Team"
+copyright = "2020-2024, The Manim Physics Dev Team"
 author = "The Manim Physics Dev Team"
 
 
@@ -111,7 +109,7 @@ html_theme_options = {
         "color-foreground-secondary": "#ffffffd9",
     },
 }
-html_title = f"Manim Physics v{manim_physics.__version__}"
+html_title = f"Manim Physics v0.4.0"
 
 # This specifies any additional css files that will override the theme's
 html_css_files = ["custom.css"]
