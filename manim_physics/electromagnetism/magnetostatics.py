@@ -101,11 +101,12 @@ class MagneticField(ArrowVectorField):
         currents: Iterable[float],
     ):
         B_field = np.zeros(3)
-        for (r0, r1), I in it.product(*dls, currents):
-            dl = r1 - r0
-            r = p - r0
-            dist = np.linalg.norm(r)
-            if dist < 0.1:
-                return np.zeros(3)
-            B_field += np.cross(dl, r) * I / dist**4
+        for dl in dls:
+            for (r0, r1), I in it.product(dl, currents):
+                dr = r1 - r0
+                r = p - r0
+                dist = np.linalg.norm(r)
+                if dist < 0.1:
+                    return np.zeros(3)
+                B_field += np.cross(dr, r) * I / dist**4
         return B_field
