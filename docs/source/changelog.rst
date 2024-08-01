@@ -2,6 +2,13 @@
 Changelog
 =========
 
+**v0.4.1**
+==========
+Bugfix
+------
+- `#34 <https://github.com/Matheart/manim-physics/pull/35>`_ : Magnetic fields
+  now accept multiple wires
+
 **v0.4.0**
 ==========
 Breaking Changes
